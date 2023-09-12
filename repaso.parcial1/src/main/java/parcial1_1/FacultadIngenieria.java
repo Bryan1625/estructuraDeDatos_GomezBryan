@@ -26,7 +26,10 @@ public class FacultadIngenieria {
         if(i<0 || j<0 || i>=ingenieria.length || j>=ingenieria[i].length || ingenieria[i][j].contentEquals("1") || ingenieria[i][j].contentEquals("V")){
             return;
         } else if (i==6 && j==6) {
+            ingenieria[i][j]="V";
             imprimirMatriz(ingenieria);
+            System.out.println();
+            ingenieria[i][j]="";
         } else if (ingenieria[i][j].contentEquals("")) {
             ingenieria[i][j]="V";
             //abajo,izquierda,arriba, derecha
@@ -46,7 +49,7 @@ public class FacultadIngenieria {
             for (int j = 0; j < matriz[i].length; j++) {
                 System.out.print(matriz[i][j] + "\t");
             }
-            System.out.println(); // Cambia de línea después de imprimir una fila completa
+            System.out.println();
         }
     }
 
