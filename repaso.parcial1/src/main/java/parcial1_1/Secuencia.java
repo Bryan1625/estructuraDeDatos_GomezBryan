@@ -9,28 +9,25 @@ public class Secuencia {
             "IPUIHOL"
 };
     public static void main(String[] args) {
-        if(hayRepetidos(0,0,true,'a')){
-            System.out.println("si hay");
+        if(hayRepetidos(0,'a',0)){
+            System.out.println("si se repiten mas de 4 caracteres en la diagonal principal");
         }else {
-            System.out.println("no hay");
+            System.out.println("no se repiten mas de 4 caracteres en la diagonal principal");
         }
     }
 
-    public static boolean hayRepetidos(int i, int j, boolean aux, char letra){
-        if(secuencia[i].length()<=secuencia[j].charAt(i) || aux==false){
-            return false;
-        } else if (i==0 && j==0) {
-            letra = secuencia[j].charAt(i);
-        } else if (i>=0 && j>=0) {
-            if(secuencia[j].charAt(i)==letra){
-                aux = true;
-                return hayRepetidos(i,j,aux,letra);
-            }else{
-                return false;
+    public static boolean hayRepetidos(int i, char letra, int repetidos) {
+        if (i >= 0 && i < secuencia.length && i < secuencia[i].length()) {
+            if (repetidos == 4) {
+                return true;
+            } else if (secuencia[i].charAt(i) == letra) {
+                return hayRepetidos(i + 1, letra, repetidos + 1);
+            } else {
+                letra = secuencia[i].charAt(i);
+                return hayRepetidos(i + 1, letra, 0);
             }
-        }else {
-            System.out.println("error en los indices suministrados");
         }
-    return aux;
+        return false;
     }
+
 }
