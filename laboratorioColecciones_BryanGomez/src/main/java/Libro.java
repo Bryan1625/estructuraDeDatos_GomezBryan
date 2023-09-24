@@ -5,12 +5,13 @@ public class Libro {
     private boolean disponible;
 
     public Libro() {
+        disponible = true;
     }
 
-    public Libro(String titulo, String autor, boolean disponible) {
+    public Libro(String titulo, String autor) {
         this.titulo = titulo;
         this.autor = autor;
-        this.disponible = disponible;
+        this.disponible = true;
     }
 
     public String getTitulo() {

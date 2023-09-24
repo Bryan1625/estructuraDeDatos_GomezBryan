@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.*;
 
 public class Prestamo {
 
@@ -14,7 +14,21 @@ public class Prestamo {
         return detalles.get(id);
     }
 
+    public ArrayList<DetallePrestamo> getDetalles() {
+        ArrayList<DetallePrestamo> listaDetalles = new ArrayList<>();
+
+        Iterator<Map.Entry<Integer, DetallePrestamo>> iterator = detalles.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, DetallePrestamo> detalle = iterator.next();
+            listaDetalles.add(detalle.getValue());
+        }
+
+        return listaDetalles;
+    }
+
     public Prestamo() {
+        detalles = new HashMap<>();
     }
 
     public Prestamo (int id) {
