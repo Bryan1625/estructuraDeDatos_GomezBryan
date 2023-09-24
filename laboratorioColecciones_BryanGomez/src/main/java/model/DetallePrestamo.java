@@ -1,3 +1,5 @@
+package model;
+
 public class DetallePrestamo {
 
     private int id;

@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 public class Estudiante extends Persona{

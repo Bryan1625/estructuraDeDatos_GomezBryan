@@ -1,3 +1,5 @@
+package model;
+
 public class Bibliotecario extends Persona implements Comparable<Bibliotecario>{
 
 

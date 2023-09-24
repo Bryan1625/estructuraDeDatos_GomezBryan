@@ -1,3 +1,5 @@
+package model;
+
 public class Libro {
 
     private String titulo;

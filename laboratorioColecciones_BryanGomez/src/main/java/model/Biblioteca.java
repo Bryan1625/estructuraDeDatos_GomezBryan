@@ -1,3 +1,5 @@
+package model;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -6,7 +8,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 public class Biblioteca {
-    private final String nombre = "Biblioteca";
+    private final String nombre = "model.Biblioteca";
     private HashMap<Integer, Prestamo> prestamos;
     private TreeSet<Bibliotecario> bibliotecarios;
     private HashSet<Estudiante> estudiantes;
@@ -16,6 +18,9 @@ public class Biblioteca {
 
     public void agregarPrestamo(Prestamo prestamo) {
         prestamos.put(prestamo.getId(), prestamo);
+    }
+    public void eliminarPrestamo(Prestamo prestamo){
+        prestamos.remove(prestamo);
     }
 
     public boolean registrarPrestamo(Estudiante estudiante, Libro libro) {
@@ -85,6 +90,10 @@ public class Biblioteca {
         return null;
     }
 
+    public void eliminarBibliotecario(Bibliotecario b){
+        bibliotecarios.remove(b);
+    }
+
     public void agregarEstudiante(Estudiante e){
         estudiantes.add(e);
     }
@@ -98,6 +107,9 @@ public class Biblioteca {
             }
         }
         return null;
+    }
+    public void eliminarEstudiante(Estudiante e){
+        estudiantes.remove(e);
     }
 
     public Libro obtenerLibro(String titulo) {
@@ -113,6 +125,10 @@ public class Biblioteca {
 
     public void agregarLibro(Libro libro){
         libros.add(libro);
+    }
+
+    public void eliminarLibro(Libro l){
+        libros.remove(l);
     }
 
     public TreeSet<Libro> obtenerLibrosPorTitulo(){
