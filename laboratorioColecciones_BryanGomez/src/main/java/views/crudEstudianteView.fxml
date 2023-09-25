@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="522.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BibliotecaController">
+    <children>
+        <Label layoutX="14.0" layoutY="27.0" text="Nombre:" />
+        <TextField fx:id="txtNombreEstudiante" layoutX="77.0" layoutY="23.0" prefHeight="25.0" prefWidth="188.0" />
+        <Label layoutX="14.0" layoutY="77.0" text="ID:" />
+        <TextField fx:id="txtIdEstudiante" layoutX="77.0" layoutY="73.0" prefHeight="25.0" prefWidth="188.0" />
+        <Button fx:id="btnAgregarEstudiante" layoutX="314.0" layoutY="23.0" mnemonicParsing="false" onAction="#agregarEstudianteOnAction" text="Agregar Estudiante" />
+        <Button fx:id="btnEliminarEstudiante" layoutX="314.0" layoutY="61.0" mnemonicParsing="false" onAction="#eliminarEstudianteOnAction" text="Eliminar Estudiante" />
+        <Button fx:id="btnActualizarEstudiante" layoutX="314.0" layoutY="98.0" mnemonicParsing="false" onAction="#actualizarEstudianteOnAction" text="Actualizar Estudiante" />
+        <TableView fx:id="tblEstudiantes" layoutX="61.0" layoutY="163.0" prefHeight="200.0" prefWidth="383.0">
+            <columns>
+                <TableColumn fx:id="colNombreEstudiante" prefWidth="151.0" text="Nombre" />
+                <TableColumn fx:id="colIdEstudiante" prefWidth="148.0" text="ID" />
+                <TableColumn fx:id="colLibrosEstudiante" prefWidth="83.0" text="Libros" />
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>

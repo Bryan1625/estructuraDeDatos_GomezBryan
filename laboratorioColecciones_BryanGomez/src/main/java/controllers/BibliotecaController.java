@@ -1,16 +1,136 @@
 package controllers;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class BibliotecaController {
     private Biblioteca biblioteca;
 
+    // Elementos de la interfaz de Bibliotecarios
+    @FXML
+    private TextField txtNombreBibliotecario;
+
+    @FXML
+    private TextField txtIdBibliotecario;
+
+    @FXML
+    private Button btnAgregarBibliotecario;
+
+    @FXML
+    private Button btnEliminarBibliotecario;
+
+    @FXML
+    private Button btnActualizarBibliotecario;
+
+    @FXML
+    private TableView<Bibliotecario> tblBibliotecarios;
+
+    @FXML
+    private TableColumn<Bibliotecario, String> colNombreBibliotecario;
+
+    @FXML
+    private TableColumn<Bibliotecario, Integer> colIdBibliotecario;
+
+    @FXML
+    private TableColumn<Bibliotecario, Integer> colLibrosBibliotecario;
+
+    // Elementos de la interfaz de Estudiantes
+    @FXML
+    private TextField txtNombreEstudiante;
+
+    @FXML
+    private TextField txtIdEstudiante;
+
+    @FXML
+    private Button btnAgregarEstudiante;
+
+    @FXML
+    private Button btnEliminarEstudiante;
+
+    @FXML
+    private Button btnActualizarEstudiante;
+
+    @FXML
+    private TableView<Estudiante> tblEstudiantes;
+
+    @FXML
+    private TableColumn<Estudiante, String> colNombreEstudiante;
+
+    @FXML
+    private TableColumn<Estudiante, Integer> colIdEstudiante;
+
+    // Elementos de la interfaz de Libros
+    @FXML
+    private TextField txtTituloLibro;
+
+    @FXML
+    private TextField txtAutorLibro;
+
+    @FXML
+    private Button btnAgregarLibro;
+
+    @FXML
+    private Button btnEliminarLibro;
+
+    @FXML
+    private Button btnActualizarLibro;
+
+    @FXML
+    private TableView<Libro> tblLibros;
+
+    @FXML
+    private TableColumn<Libro, String> colTituloLibro;
+
+    @FXML
+    private TableColumn<Libro, String> colAutorLibro;
+
+    @FXML
+    private TableColumn<Libro, Boolean> colDisponibleLibro;
+
+    //transacciones
+
+    @FXML
+    private TextField txtEstudianteTransaccion;
+
+    @FXML
+    private Button btnPrestamo;
+
+    @FXML
+    private Button btnDevolucion;
+
+    @FXML
+    private TableView<Libro> tblLibrosBiblioteca;
+
+    @FXML
+    private TableColumn<Libro, String> colTituloLibroBiblioteca;
+
+    @FXML
+    private TableColumn<Libro, String> colAutorLibroBiblioteca;
+
+    @FXML
+    private TableColumn<Libro, Boolean> colDisponibleLibroBiblioteca;
+
+
     public BibliotecaController(Biblioteca biblioteca) {
         this.biblioteca = biblioteca;
+    }
+
+    public BibliotecaController() {
+
     }
 
     public void inicializarDatos() {
@@ -122,14 +242,326 @@ public class BibliotecaController {
     }
 
     public void CrudEstudianteOnAction(ActionEvent actionEvent) {
+        try {
+            // Cargar el archivo FXML de OtraInterfaz
+            Parent root = FXMLLoader.load(getClass().getResource("views/crudEstudianteView.fxml"));
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+
+            // Obtener el escenario actual (ventana principal)
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Configurar el escenario con la nueva escena
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void CrudBibliotecarioOnAction(ActionEvent actionEvent) {
+        try {
+            // Cargar el archivo FXML de OtraInterfaz
+            Parent root = FXMLLoader.load(getClass().getResource("views/crudBibliotecarioView.fxml"));
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+
+            // Obtener el escenario actual (ventana principal)
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Configurar el escenario con la nueva escena
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void CrudLibroOnAction(ActionEvent actionEvent) {
+        try {
+            // Cargar el archivo FXML de OtraInterfaz
+            Parent root = FXMLLoader.load(getClass().getResource("views/crudLibroView.fxml.fxml"));
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+
+            // Obtener el escenario actual (ventana principal)
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Configurar el escenario con la nueva escena
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void transaccionesOnAction(ActionEvent actionEvent) {
+        try {
+            // Cargar el archivo FXML de OtraInterfaz
+            Parent root = FXMLLoader.load(getClass().getResource("views/transaccionesView.fxml"));
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+
+            // Obtener el escenario actual (ventana principal)
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Configurar el escenario con la nueva escena
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void agregarBibliotecarioOnAction(ActionEvent event) {
+        String nombre = txtNombreBibliotecario.getText();
+        String idStr = txtIdBibliotecario.getText();
+
+        if (!nombre.isEmpty() && !idStr.isEmpty()) {
+            try {
+                int id = Integer.parseInt(idStr);
+                Bibliotecario bibliotecario = new Bibliotecario(nombre, id);
+                biblioteca.agregarBibliotecario(bibliotecario);
+                txtNombreBibliotecario.clear();
+                txtIdBibliotecario.clear();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void eliminarBibliotecarioOnAction(ActionEvent event) {
+        String idStr = txtIdBibliotecario.getText();
+
+        if (!idStr.isEmpty()) {
+            try {
+                int id = Integer.parseInt(idStr);
+                Bibliotecario bibliotecario = biblioteca.obtenerBibliotecario(id);
+
+                if (bibliotecario != null) {
+                    biblioteca.eliminarBibliotecario(bibliotecario);
+                    txtNombreBibliotecario.clear();
+                    txtIdBibliotecario.clear();
+                } else {
+                    // Manejar el caso en el que no se encuentra el bibliotecario
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void actualizarBibliotecarioOnAction(ActionEvent actionEvent) {
+        // Implementación para actualizar un bibliotecario en la interfaz
+        Bibliotecario bibliotecarioSeleccionado = tblBibliotecarios.getSelectionModel().getSelectedItem();
+        if (bibliotecarioSeleccionado != null) {
+            String nuevoNombre = txtNombreBibliotecario.getText();
+            if (!nuevoNombre.isEmpty()) {
+                bibliotecarioSeleccionado.setNombre(nuevoNombre);
+                // Actualizar la tabla
+                tblBibliotecarios.refresh();
+                limpiarCamposBibliotecario();
+            }
+        }
+    }
+
+    public void agregarEstudianteOnAction(ActionEvent actionEvent) {
+        // Implementación para agregar un estudiante en la interfaz
+        String nombreEstudiante = txtNombreEstudiante.getText();
+        String idEstudianteStr = txtIdEstudiante.getText();
+
+        if (!nombreEstudiante.isEmpty() && !idEstudianteStr.isEmpty()) {
+            try {
+                int idEstudiante = Integer.parseInt(idEstudianteStr);
+                Estudiante nuevoEstudiante = new Estudiante(nombreEstudiante, idEstudiante);
+                biblioteca.agregarEstudiante(nuevoEstudiante);
+                tblEstudiantes.getItems().add(nuevoEstudiante);
+                limpiarCamposEstudiante();
+            } catch (NumberFormatException e) {
+                // Manejar la excepción si el ID no es un número válido
+                // Por ejemplo, mostrar un mensaje de error al usuario
+            }
+        }
+    }
+
+    public void eliminarEstudianteOnAction(ActionEvent actionEvent) {
+        // Implementación para eliminar un estudiante en la interfaz
+        Estudiante estudianteSeleccionado = tblEstudiantes.getSelectionModel().getSelectedItem();
+        if (estudianteSeleccionado != null) {
+            biblioteca.eliminarEstudiante(estudianteSeleccionado);
+            tblEstudiantes.getItems().remove(estudianteSeleccionado);
+        }
+    }
+
+    public void actualizarEstudianteOnAction(ActionEvent actionEvent) {
+        // Implementación para actualizar un estudiante en la interfaz
+        Estudiante estudianteSeleccionado = tblEstudiantes.getSelectionModel().getSelectedItem();
+        if (estudianteSeleccionado != null) {
+            String nuevoNombre = txtNombreEstudiante.getText();
+            if (!nuevoNombre.isEmpty()) {
+                estudianteSeleccionado.setNombre(nuevoNombre);
+                // Actualizar la tabla
+                tblEstudiantes.refresh();
+                limpiarCamposEstudiante();
+            }
+        }
+    }
+
+    public void agregarLibroOnAction(ActionEvent actionEvent) {
+        // Implementación para agregar un libro en la interfaz
+        String tituloLibro = txtTituloLibro.getText();
+        String autorLibro = txtAutorLibro.getText();
+        if (!tituloLibro.isEmpty() && !autorLibro.isEmpty()) {
+            Libro nuevoLibro = new Libro(tituloLibro, autorLibro);
+            biblioteca.agregarLibro(nuevoLibro);
+            tblLibros.getItems().add(nuevoLibro);
+            limpiarCamposLibro();
+        }
+    }
+
+    public void eliminarLibroOnAction(ActionEvent actionEvent) {
+        // Implementación para eliminar un libro en la interfaz
+        Libro libroSeleccionado = tblLibros.getSelectionModel().getSelectedItem();
+        if (libroSeleccionado != null) {
+            biblioteca.eliminarLibro(libroSeleccionado);
+            tblLibros.getItems().remove(libroSeleccionado);
+        }
+    }
+
+    public void actualizarLibroOnAction(ActionEvent actionEvent) {
+        // Implementación para actualizar un libro en la interfaz
+        Libro libroSeleccionado = tblLibros.getSelectionModel().getSelectedItem();
+        if (libroSeleccionado != null) {
+            String nuevoTitulo = txtTituloLibro.getText();
+            String nuevoAutor = txtAutorLibro.getText();
+            if (!nuevoTitulo.isEmpty() && !nuevoAutor.isEmpty()) {
+                libroSeleccionado.setTitulo(nuevoTitulo);
+                libroSeleccionado.setAutor(nuevoAutor);
+                // Actualizar la tabla
+                tblLibros.refresh();
+                limpiarCamposLibro();
+            }
+        }
+    }
+
+    private void limpiarCamposBibliotecario() {
+        txtNombreBibliotecario.clear();
+        txtIdBibliotecario.clear();
+    }
+
+    private void limpiarCamposEstudiante() {
+        txtNombreEstudiante.clear();
+        txtIdEstudiante.clear();
+    }
+
+    private void limpiarCamposLibro() {
+        txtTituloLibro.clear();
+        txtAutorLibro.clear();
+    }
+
+
+    public void realizarPrestamoOnAction(ActionEvent actionEvent) {
+        // Obtener el ID del estudiante desde el campo de texto de transacción
+        String idEstudianteStr = txtEstudianteTransaccion.getText();
+
+        if (!idEstudianteStr.isEmpty()) {
+            try {
+                int idEstudiante = Integer.parseInt(idEstudianteStr);
+
+                // Obtener el estudiante correspondiente usando obtenerEstudiante
+                Estudiante estudiante = obtenerEstudiante(idEstudiante);
+
+                if (estudiante != null) {
+                    // Obtener el libro seleccionado de la tabla
+                    Libro libroSeleccionado = tblLibrosBiblioteca.getSelectionModel().getSelectedItem();
+
+                    if (libroSeleccionado != null) {
+                        // Llamar al método registrarPrestamo con el estudiante y el libro
+                        boolean exito = registrarPrestamo(estudiante, libroSeleccionado);
+
+                        if (exito) {
+                            // Operación de préstamo exitosa, puedes mostrar un mensaje de éxito
+                            // o realizar otras acciones necesarias.
+                            System.out.println("Préstamo registrado exitosamente.");
+                        } else {
+                            // Manejar el caso en el que el préstamo no pudo ser registrado.
+                            System.out.println("No se pudo registrar el préstamo.");
+                        }
+                    } else {
+                        // Manejar el caso en el que no se seleccionó ningún libro.
+                        System.out.println("Por favor, seleccione un libro.");
+                    }
+                } else {
+                    // Manejar el caso en el que no se encontró al estudiante con el ID proporcionado.
+                    System.out.println("Estudiante no encontrado.");
+                }
+
+                // Limpiar el campo de texto de transacción
+                txtEstudianteTransaccion.clear();
+
+            } catch (NumberFormatException e) {
+                // Manejar la excepción si el ID no es un número válido
+                // Por ejemplo, mostrar un mensaje de error al usuario
+                System.out.println("Ingrese un ID de estudiante válido.");
+            }
+        } else {
+            // Manejar el caso en el que el campo de texto de transacción está vacío.
+            System.out.println("Ingrese un ID de estudiante.");
+        }
+    }
+
+    public void recibirDevolucionOnAction(ActionEvent actionEvent) {
+        // Obtener el ID del estudiante desde el campo de texto de transacción
+        String idEstudianteStr = txtEstudianteTransaccion.getText();
+
+        if (!idEstudianteStr.isEmpty()) {
+            try {
+                int idEstudiante = Integer.parseInt(idEstudianteStr);
+
+                // Obtener el estudiante correspondiente usando obtenerEstudiante
+                Estudiante estudiante = obtenerEstudiante(idEstudiante);
+
+                if (estudiante != null) {
+                    // Obtener el libro seleccionado de la tabla
+                    Libro libroSeleccionado = tblLibrosBiblioteca.getSelectionModel().getSelectedItem();
+
+                    if (libroSeleccionado != null) {
+                        // Llamar al método recibirDevolucion con el estudiante y el libro
+                        boolean exito = recibirDevolucion(libroSeleccionado, estudiante);
+
+                        if (exito) {
+                            // Operación de devolución exitosa, puedes mostrar un mensaje de éxito
+                            // o realizar otras acciones necesarias.
+                            System.out.println("Devolución registrada exitosamente.");
+                        } else {
+                            // Manejar el caso en el que la devolución no pudo ser registrada.
+                            System.out.println("No se pudo registrar la devolución.");
+                        }
+                    } else {
+                        // Manejar el caso en el que no se seleccionó ningún libro.
+                        System.out.println("Por favor, seleccione un libro.");
+                    }
+                } else {
+                    // Manejar el caso en el que no se encontró al estudiante con el ID proporcionado.
+                    System.out.println("Estudiante no encontrado.");
+                }
+
+                // Limpiar el campo de texto de transacción
+                txtEstudianteTransaccion.clear();
+
+            } catch (NumberFormatException e) {
+                // Manejar la excepción si el ID no es un número válido
+                // Por ejemplo, mostrar un mensaje de error al usuario
+                System.out.println("Ingrese un ID de estudiante válido.");
+            }
+        } else {
+            // Manejar el caso en el que el campo de texto de transacción está vacío.
+            System.out.println("Ingrese un ID de estudiante.");
+        }
     }
 }
+

@@ -137,6 +137,27 @@ public class Biblioteca {
         return libros;
     }
 
+    public void actualizarBibliotecario(int id, String nuevoNombre) {
+        Bibliotecario bibliotecario = obtenerBibliotecario(id);
+        if (bibliotecario != null) {
+            bibliotecario.setNombre(nuevoNombre);
+        }
+    }
+
+    public void actualizarEstudiante(int id, String nuevoNombre) {
+        Estudiante estudiante = obtenerEstudiante(id);
+        if (estudiante != null) {
+            estudiante.setNombre(nuevoNombre);
+        }
+    }
+
+    public void actualizarLibro(String titulo, String nuevoAutor) {
+        Libro libro = obtenerLibro(titulo);
+        if (libro != null) {
+            libro.setAutor(nuevoAutor);
+        }
+    }
+
     public Biblioteca() {
         prestamos = new HashMap<>();
         bibliotecarios = new TreeSet<>();
