@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.event.ActionEvent;
 import model.*;
 
 import java.util.ArrayList;
@@ -118,5 +119,17 @@ public class BibliotecaController {
 
     public Estudiante obtenerEstudiante(int id) {
         return biblioteca.obtenerEstudiante(id);
+    }
+
+    public void CrudEstudianteOnAction(ActionEvent actionEvent) {
+    }
+
+    public void CrudBibliotecarioOnAction(ActionEvent actionEvent) {
+    }
+
+    public void CrudLibroOnAction(ActionEvent actionEvent) {
+    }
+
+    public void transaccionesOnAction(ActionEvent actionEvent) {
     }
 }
