@@ -9,7 +9,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Cargar el archivo FXML
-        Parent root = FXMLLoader.load(getClass().getResource("views/menuView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/menuView.fxml"));
 
         // Crear una escena
         Scene scene = new Scene(root);
@@ -18,9 +18,5 @@ public class MainApp extends Application {
         primaryStage.setTitle("Menu Principal");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
