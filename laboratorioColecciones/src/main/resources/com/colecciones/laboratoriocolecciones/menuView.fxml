@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="491.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.colecciones.laboratoriocolecciones.BibliotecaController">
+   <children>
+       <Label layoutX="213.0" layoutY="20.0" text="Menu Principal" />
+       <Button fx:id="btnCrudEstudiante" layoutX="83.0" layoutY="70.0" mnemonicParsing="false" onAction="#CrudEstudianteOnAction" text="CRUD Estudiante" />
+       <Button fx:id="btnCrudBibliotecario" layoutX="83.0" layoutY="117.0" mnemonicParsing="false" onAction="#CrudBibliotecarioOnAction" text="CRUD Bibliotecario" />
+       <Button fx:id="btnCrudLibro" layoutX="293.0" layoutY="70.0" mnemonicParsing="false" onAction="#CrudLibroOnAction" text="CRUD Libro" />
+       <Button fx:id="btnTransacciones" layoutX="293.0" layoutY="117.0" mnemonicParsing="false" onAction="#transaccionesOnAction" text="Transacciones" />
+   </children>
+</AnchorPane>
