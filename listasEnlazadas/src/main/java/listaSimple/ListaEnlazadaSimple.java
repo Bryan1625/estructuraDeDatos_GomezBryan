@@ -64,7 +64,6 @@ public class ListaEnlazadaSimple {
         return false;
     }
 
-
     public void eliminarPorReferencia(int valor) {
         if(buscar(valor)){
             if(nodoPrimero.getValorNodo()== valor){

@@ -1,4 +1,4 @@
-package listaSimpleGenerica;
+package listaCircular;
 
 public class Nodo<T> {
 

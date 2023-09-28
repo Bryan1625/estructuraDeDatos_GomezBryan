@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ListaEnlazadaSimple<T> {
 
-    Nodo nodoPrimero;
+    Nodo<T> nodoPrimero;
     int tamanio;
 
     public ListaEnlazadaSimple() {
@@ -34,8 +34,39 @@ public class ListaEnlazadaSimple<T> {
         tamanio++;
     }
 
-    public void agregarFinal(int valorNodo) {
-        Nodo<T> nuevoNodo = new Nodo(valorNodo);
+    public Nodo<T> getNodoPrimero() {
+        return nodoPrimero;
+    }
+
+    public void setNodoPrimero(Nodo<T> nodoPrimero) {
+        this.nodoPrimero = nodoPrimero;
+    }
+
+    public void setTamanio(int tamanio) {
+        this.tamanio = tamanio;
+    }
+
+    public void concatenarListas(ListaEnlazadaSimple<T> lista2) {
+        if (lista2.estaVacia()) {
+            return;
+        }
+        if (estaVacia()) {
+            nodoPrimero = lista2.getNodoPrimero();
+            tamanio = lista2.getTamanio();
+        } else {
+            Nodo<T> nodoActual = nodoPrimero;
+            while (nodoActual.getSiguienteNodo() != null) {
+                nodoActual = nodoActual.getSiguienteNodo();
+            }
+            nodoActual.setSiguienteNodo(lista2.getNodoPrimero());
+            tamanio += lista2.getTamanio();
+        }
+        lista2.clear();
+    }
+
+
+    public void agregarFinal(T valorNodo) {
+        Nodo<T> nuevoNodo = new Nodo<T>(valorNodo);
 
         if (estaVacia()) {
             nodoPrimero = nuevoNodo;
