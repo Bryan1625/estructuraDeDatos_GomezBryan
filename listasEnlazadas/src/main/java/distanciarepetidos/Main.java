@@ -23,13 +23,13 @@ public class Main {
     }
 
     public static int obtenerDistanciaMaxima(ListaEnlazadaSimple lista, int clave){
-        return obtenerDistanciaMaximaRecursivo(lista,clave,-1,0,0);
+        return obtenerDistanciaMaximaRecursivo(lista,clave,0,0,0);
     }
 
     public static int obtenerDistanciaMaximaRecursivo(ListaEnlazadaSimple lista, int clave, int max, int con, int indice){
         if(indice<0 || indice>= lista.getTamanio()){
             return max;
-        } else if (max != -1) {
+        } else if (max != 0) {
             if(lista.getValor(indice) ==  clave){
                 con++;
                 if(max < con){
@@ -41,7 +41,7 @@ public class Main {
             }
         }else{
             if(lista.getValor(indice) ==  clave){
-                max = 0;
+                max = 1;
             }
         }
         return obtenerDistanciaMaximaRecursivo(lista, clave, max, con, indice+1);
