@@ -1,11 +1,10 @@
-package listaSimpleGenerica;
+package polinomio;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ListaEnlazadaSimple<T> {
+public class ListaEnlazadaSimple {
 
-    Nodo<T> nodoPrimero;
+    Nodo nodoPrimero;
     int tamanio;
 
     public ListaEnlazadaSimple() {
@@ -17,12 +16,12 @@ public class ListaEnlazadaSimple<T> {
         return nodoPrimero == null;
     }
 
-    public int getTamanio() {
+    public int getintamanio() {
         return tamanio;
     }
 
-    public void agregarInicio(T valorNodo) {
-        Nodo<T> nuevoNodo = new Nodo<>(valorNodo);
+    public void agregarInicio(int[] valorNodo) {
+        Nodo nuevoNodo = new Nodo(valorNodo);
 
         if (estaVacia()) {
             nodoPrimero = nuevoNodo;
@@ -34,44 +33,44 @@ public class ListaEnlazadaSimple<T> {
         tamanio++;
     }
 
-    public Nodo<T> getNodoPrimero() {
+    public Nodo getNodoPrimero() {
         return nodoPrimero;
     }
 
-    public void setNodoPrimero(Nodo<T> nodoPrimero) {
+    public void setNodoPrimero(Nodo nodoPrimero) {
         this.nodoPrimero = nodoPrimero;
     }
 
-    public void setTamanio(int tamanio) {
+    public void setintamanio(int tamanio) {
         this.tamanio = tamanio;
     }
 
-    public void concatenarListas(ListaEnlazadaSimple<T> lista2) {
+    public void concatenarListas(ListaEnlazadaSimple lista2) {
         if (lista2.estaVacia()) {
             return;
         }
         if (estaVacia()) {
             nodoPrimero = lista2.getNodoPrimero();
-            tamanio = lista2.getTamanio();
+            tamanio = lista2.getintamanio();
         } else {
-            Nodo<T> nodoActual = nodoPrimero;
+            Nodo nodoActual = nodoPrimero;
             while (nodoActual.getSiguienteNodo() != null) {
                 nodoActual = nodoActual.getSiguienteNodo();
             }
             nodoActual.setSiguienteNodo(lista2.getNodoPrimero());
-            tamanio += lista2.getTamanio();
+            tamanio += lista2.getintamanio();
         }
         lista2.clear();
     }
 
 
-    public void agregarFinal(T valorNodo) {
-        Nodo<T> nuevoNodo = new Nodo<T>(valorNodo);
+    public void agregarFinal(int[] valorNodo) {
+        Nodo nuevoNodo = new Nodo(valorNodo);
 
         if (estaVacia()) {
             nodoPrimero = nuevoNodo;
         } else {
-            Nodo<T> nodoActual = nodoPrimero;
+            Nodo nodoActual = nodoPrimero;
             while (nodoActual.getSiguienteNodo() != null) {
                 nodoActual = nodoActual.getSiguienteNodo();
             }
@@ -81,8 +80,8 @@ public class ListaEnlazadaSimple<T> {
         tamanio++;
     }
 
-    public boolean buscar(T valor) {
-        Nodo<T> nodoActual = nodoPrimero;
+    public boolean buscar(int valor) {
+        Nodo nodoActual = nodoPrimero;
 
         while (nodoActual != null) {
             if (nodoActual.getValorNodo() == valor) {
@@ -97,25 +96,25 @@ public class ListaEnlazadaSimple<T> {
     }
 
 
-    public void eliminarPorReferencia(T valor) {
+    public void eliminarPorReferencia(int valor) {
         if(buscar(valor)){
             if(nodoPrimero.getValorNodo()== valor){
                 nodoPrimero = nodoPrimero.getSiguienteNodo();
             }else{
-                Nodo<T> aux = nodoPrimero;
+                Nodo aux = nodoPrimero;
 
                 while(aux.getSiguienteNodo().getValorNodo() != valor){
                     aux = aux.getSiguienteNodo();
                 }
-                Nodo<T> siguiente = aux.getSiguienteNodo().getSiguienteNodo();
+                Nodo siguiente = aux.getSiguienteNodo().getSiguienteNodo();
                 aux.setSiguienteNodo(siguiente);
             }
             tamanio--;
         }
     }
 
-    public void addAll(List<T> elementos) {
-        for (T elemento : elementos) {
+    public void addAll(List<int[]> elementos) {
+        for (int[] elemento : elementos) {
             agregarInicio(elemento);
         }
     }
@@ -125,19 +124,19 @@ public class ListaEnlazadaSimple<T> {
     }
 
 
-    public T getValor(int indice) {
-        if (indice < 0 || indice >= tamanio || estaVacia()) {
-            throw new IndexOutOfBoundsException("Índice fuera de rango o lista vacía");
-        }
-
-        Nodo<T> nodoActual = nodoPrimero;
+    public int getValor(int x) {
+        int resultado = 0;
+        Nodo nodoActual = nodoPrimero;
         int contador = 0;
 
-        while (contador < indice) {
+        while (nodoActual != null) {
+            nodoActual.setValorX(x);
+            resultado += nodoActual.getValorNodo();
             nodoActual = nodoActual.getSiguienteNodo();
+
             contador++;
         }
-        return nodoActual.getValorNodo();
+        return resultado;
     }
 
     //eliminar nodo por numero o referencia, eliminar posicion
