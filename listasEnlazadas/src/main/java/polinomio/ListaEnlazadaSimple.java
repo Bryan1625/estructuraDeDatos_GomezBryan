@@ -123,18 +123,28 @@ public class ListaEnlazadaSimple {
         nodoPrimero = null;
     }
 
+    public String obtenerPolinomio(int x){
+        String resultado = "";
+        Nodo nodoActual = nodoPrimero;
+
+        while (nodoActual != null) {
+            nodoActual.setValorX(x);
+            resultado += nodoActual.getTermino();
+            nodoActual = nodoActual.getSiguienteNodo();
+
+        }
+        return resultado;
+    }
 
     public int getValor(int x) {
         int resultado = 0;
         Nodo nodoActual = nodoPrimero;
-        int contador = 0;
 
         while (nodoActual != null) {
             nodoActual.setValorX(x);
             resultado += nodoActual.getValorNodo();
             nodoActual = nodoActual.getSiguienteNodo();
 
-            contador++;
         }
         return resultado;
     }

@@ -28,6 +28,16 @@ public class Nodo {
         valorNodo[2] = x;
     }
 
+    public int getValorX(){
+        return valorNodo[2];
+    }
+
+    public String getTermino(){
+        int coeficiente = getCoeficiente();
+        String signo = (coeficiente < 0) ? "-" : "+";
+        return signo + Math.abs(coeficiente) + "(" + getValorX() + ")" + getPotencia();
+    }
+
 
     public int getValorNodo() {
         return (int) (valorNodo[0]*Math.pow(valorNodo[2],valorNodo[1]));

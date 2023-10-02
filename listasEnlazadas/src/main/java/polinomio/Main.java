@@ -12,6 +12,7 @@ public class Main {
         agregarTermino(1, 0, lista);
 
         int resultado = calcularResultado(2, lista);
+        System.out.println("El polinomio es: "+lista.obtenerPolinomio(2));
         System.out.println("Resultado para x=2: " + resultado);
     }
 
