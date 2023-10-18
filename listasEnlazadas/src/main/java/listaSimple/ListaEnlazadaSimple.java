@@ -7,9 +7,46 @@ public class ListaEnlazadaSimple {
     Nodo nodoPrimero;
     int tamanio;
 
+    public Nodo getNodoPrimero() {
+        return nodoPrimero;
+    }
+
+    public void setNodoPrimero(Nodo nodoPrimero) {
+        this.nodoPrimero = nodoPrimero;
+    }
+
     public ListaEnlazadaSimple() {
         this.nodoPrimero = null;
         this.tamanio = 0;
+    }
+
+    public ListaEnlazadaSimple clonar(){
+        ListaEnlazadaSimple lista = new ListaEnlazadaSimple();
+        Nodo nodoActual = nodoPrimero;
+
+        while (nodoActual != null) {
+            lista.agregarFinal(nodoActual.getValorNodo());
+            nodoActual = nodoActual.getSiguienteNodo();
+        }
+        return lista;
+    }
+
+    public boolean equivalente(ListaEnlazadaSimple lista){
+        boolean aux = true;
+        Nodo nodoActual = nodoPrimero;
+        Nodo nodoLista = lista.getNodoPrimero();
+
+        if(tamanio==lista.getTamanio()){
+        while (nodoActual != null) {
+            if(nodoActual.getValorNodo()!=nodoLista.getValorNodo()){
+                aux = false;
+            }
+            nodoActual = nodoActual.getSiguienteNodo();
+            nodoLista = nodoLista.getSiguienteNodo();
+        }}else{
+            aux = false;
+        }
+        return aux;
     }
 
     public boolean estaVacia() {

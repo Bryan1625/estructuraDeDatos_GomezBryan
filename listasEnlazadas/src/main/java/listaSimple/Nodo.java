@@ -10,6 +10,11 @@ public class Nodo {
         this.siguienteNodo = null;
     }
 
+    public Nodo(int valorNodo, Nodo siguienteNodo){
+        this.valorNodo = valorNodo;
+        this.siguienteNodo = siguienteNodo;
+    }
+
     public int getValorNodo() {
         return valorNodo;
     }

@@ -20,6 +20,7 @@ public class Main {
 
         int distancia = obtenerDistanciaMaxima(lista,1);
         System.out.println("Distancia maxima: "+distancia);
+
     }
 
     public static int obtenerDistanciaMaxima(ListaEnlazadaSimple lista, int clave){
