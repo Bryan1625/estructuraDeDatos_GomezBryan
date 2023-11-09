@@ -133,7 +133,7 @@ public class ListaEnlazadaSimple {
         Nodo nodoActual = nodoPrimero;
         int contador = 0;
 
-        while (contador < indice) {
+        while (contador < indice && nodoActual.siguienteNodo != null) {
             nodoActual = nodoActual.getSiguienteNodo();
             contador++;
         }

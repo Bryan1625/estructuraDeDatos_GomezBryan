@@ -2,7 +2,7 @@ package estructuras;
 
 public class Nodo<T> {
 
-    private Nodo<T> siguienteNodo;
+    Nodo<T> siguienteNodo;
     private T valorNodo;
 
 

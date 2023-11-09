@@ -16,6 +16,7 @@ public class Main {
         lista.agregarInicio(5);
         lista.agregarInicio(7);
 
+
         //4
         ListaEnlazadaSimple impares = obtenerImpares(lista);
 
