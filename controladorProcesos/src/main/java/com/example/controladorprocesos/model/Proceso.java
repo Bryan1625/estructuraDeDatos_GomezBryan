@@ -37,13 +37,6 @@ public class Proceso {
         this.nombre = nombre;
     }
 
-    public ListaEnlazadaDoble<Proceso> getProcesos() {
-        return procesos;
-    }
-
-    public void setProcesos(ListaEnlazadaDoble<Proceso> procesos) {
-        this.procesos = procesos;
-    }
 
     public Actividad getUltimaActividadInsertada() {
         return ultimaActividadInsertada;
@@ -63,21 +56,25 @@ public class Proceso {
     //busca una tarea en todo el proceso
     public Tarea buscarTareaInicio(){
 
+        return null;
     }
 
     //busca una tarea en la actividad actual
     public Tarea buscarTareaActividadActual(Actividad actividad){
 
+        return null;
     }
 
     //busca una tarea en una actividad, dado el nombre de la actividad
     public Tarea buscarTareaNombreActividad(String nombre){
 
+        return null;
     }
 
     //busca una actividad dado el nombre de la actividad
     public Actividad buscarActividad(String nombbre){
 
+        return null;
     }
 
 
