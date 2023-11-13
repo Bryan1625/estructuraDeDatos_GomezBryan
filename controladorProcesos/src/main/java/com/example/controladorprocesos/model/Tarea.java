@@ -4,9 +4,9 @@ public class Tarea {
     private String nombre;
     private String descripcion;
     private boolean obligatoria;
-    private int tiempoMinutos;
+    private double tiempoMinutos;
 
-    public Tarea(String nombre, String descripcion, boolean obligatoria, int tiempoMinutos) {
+    public Tarea(String nombre, String descripcion, boolean obligatoria, double tiempoMinutos) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.obligatoria = obligatoria;
@@ -40,17 +40,17 @@ public class Tarea {
         this.obligatoria = obligatoria;
     }
 
-    public int getTiempoMinutos() {
+    public double getTiempoMinutos() {
         return tiempoMinutos;
     }
 
-    public void setTiempoMinutos(int tiempoMinutos) {
+    public void setTiempoMinutos(double tiempoMinutos) {
         this.tiempoMinutos = tiempoMinutos;
     }
 
     public void realizarTarea(){
         try {
-            Thread.sleep(tiempoMinutos * 60000L);
+            Thread.sleep((long) (tiempoMinutos * 60000L));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

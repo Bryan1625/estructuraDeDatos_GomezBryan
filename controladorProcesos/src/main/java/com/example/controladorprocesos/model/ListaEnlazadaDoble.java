@@ -1,6 +1,8 @@
 package com.example.controladorprocesos.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ListaEnlazadaDoble<T> implements Iterable<T>{
 
@@ -14,6 +16,18 @@ public class ListaEnlazadaDoble<T> implements Iterable<T>{
         nodoPrimero = null;
         nodoUltimo = null;
         size = 0;
+    }
+
+    /**
+     * crea una lista a partir de los elementos de otra
+     * @param otraLista la lista que contiene los elementos a agregar
+     */
+    public ListaEnlazadaDoble(ListaEnlazadaDoble<T> otraLista) {
+        if (otraLista != null) {
+            for (T valor : otraLista) {
+                agregarFinal(valor);
+            }
+        }
     }
 
     //Agregar al inicio de la lista
@@ -461,6 +475,22 @@ public class ListaEnlazadaDoble<T> implements Iterable<T>{
         size ++;
     }
 
+    /**
+     * convierte la lista en un arraylist para despues usarlo
+     * para agregar los elementos en un observablelist,
+     * para despues mostrarlos en tableviews
+     * @return lista con los elementos
+     */
+    public List<T> toArrayList() {
+        List<T> lista = new ArrayList<>();
+        Nodo<T> actual = nodoPrimero;
 
+        while (actual != null) {
+            lista.add(actual.getValorNodo());
+            actual = actual.getSiguienteNodo();
+        }
+
+        return lista;
+    }
 
 }

@@ -46,26 +46,30 @@ public class Proceso {
         this.ultimaActividadInsertada = ultimaActividadInsertada;
     }
 
-    //hay que recorrer las actividades para obtener el tiempo de duracion total
-    public void getTiempoDuracion(){
-
+    public double obtenerDuracionTotal() {
+        double duracionTotal = 0;
+        for (Actividad actividad : actividades) {
+            duracionTotal += actividad.calcularDuracionEstimada();
+        }
+        return duracionTotal;
     }
 
 ///////////////////////////////// metodos ////////////////////////////////
 
     //busca una tarea en todo el proceso
-    public Tarea buscarTareaInicio(Tarea tarea){
+    public Tarea buscarTareaInicio(String nombreTarea){
         for (Actividad actividad:actividades) {
-            buscarTareaActividadActual(actividad,tarea);
+            buscarTareaActividadActual(actividad,nombreTarea);
         }
         return null;
     }
 
     //busca una tarea en la actividad actual
-    public Tarea buscarTareaActividadActual(Actividad actividad, Tarea tarea){
-        int n = actividad.getTareas().obtenerPosicionNodo(tarea);
-        if(n > 0){
-            return tarea;
+    public Tarea buscarTareaActividadActual(Actividad actividad, String nombreTarea){
+        for (Tarea tarea: actividad.getTareas()) {
+            if (tarea.getNombre().equalsIgnoreCase(nombreTarea)){
+                return tarea;
+            }
         }
         return null;
     }
@@ -99,8 +103,10 @@ public class Proceso {
         actividad1.intercambiarTareas(actividad2);
     }
 
-    /*
-    se usaria para intercambiar 2 actividades, sin cambiar sus tareas
+    /**
+     * intercambia 2 actividades, sin cambiar sus tareas
+     * @param actividad1
+     * @param actividad2
      */
     public void intercambiarDatosActividades(Actividad actividad1, Actividad actividad2) {
         actividad1.intercambiarDatos(actividad2);
@@ -116,13 +122,7 @@ public class Proceso {
         actividades.eliminar(actividad);
     }
 
-    public int obtenerDuracionTotal() {
-        int duracionTotal = 0;
-        for (Actividad actividad : actividades) {
-            duracionTotal += actividad.calcularDuracionEstimada();
-        }
-        return duracionTotal;
-    }
+
 
 
 }

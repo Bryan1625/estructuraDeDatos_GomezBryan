@@ -1,5 +1,8 @@
 package com.example.controladorprocesos.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Actividad {
     private String nombre;
     private String descripcion;
@@ -50,21 +53,27 @@ public class Actividad {
     }
 
     public void agregarTarea(Tarea tarea) {
-        // Lógica para agregar una tarea a la actividad
+        tareas.agregarFinal(tarea);
+    }
+
+    public void agregarTarea(Tarea tarea, int i){
+        tareas.agregar(tarea,i);
     }
 
     public void eliminarTarea(Tarea tarea) {
-        // Lógica para eliminar una tarea de la actividad
+        tareas.eliminar(tarea);
     }
 
     public ListaEnlazadaDoble<Tarea> obtenerTareas() {
-        // Lógica para obtener la lista de tareas de la actividad
-        return null;
+        return tareas;
     }
 
-    public int calcularDuracionEstimada() {
-        // Lógica para calcular la duración estimada de la actividad
-        return 0;
+    public double calcularDuracionEstimada() {
+        double aux = 0;
+        for (Tarea tarea: tareas) {
+            aux += tarea.getTiempoMinutos();
+        }
+        return aux;
     }
 
 
@@ -78,11 +87,29 @@ public class Actividad {
     }
 
     public void intercambiarDatos(Actividad actividad2) {
+        Actividad temp = new Actividad();
+
+        temp.setNombre(getNombre());
+        temp.setDescripcion(getDescripcion());
+        temp.setObligatoria(isObligatoria());
+
+        setNombre(actividad2.getNombre());
+        setDescripcion(actividad2.getDescripcion());
+        setObligatoria(actividad2.isObligatoria());
+
+        actividad2.setNombre(temp.getNombre());
+        actividad2.setDescripcion(temp.getDescripcion());
+        actividad2.setObligatoria(temp.isObligatoria());
     }
 
+
     public void intercambiarTareas(Actividad actividad2) {
-        ListaEnlazadaDoble<Tarea> aux = this.tareas;
-        setTareas(actividad2.getTareas());
-        actividad2.setTareas(aux);
+        ListaEnlazadaDoble<Tarea> copiaTareas1 = new ListaEnlazadaDoble<>(this.tareas);
+        ListaEnlazadaDoble<Tarea> copiaTareas2 = new ListaEnlazadaDoble<>(actividad2.getTareas());
+
+        setTareas(copiaTareas2);
+        actividad2.setTareas(copiaTareas1);
     }
+
+
 }

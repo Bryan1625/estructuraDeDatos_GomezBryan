@@ -1,4 +1,6 @@
 package com.example.controladorprocesos.model;
 
-public class TipoUsuario {
+public enum TipoUsuario {
+    ADMINISTRADOR,
+    USUARIO_REGULAR
 }
