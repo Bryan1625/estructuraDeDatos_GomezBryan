@@ -27,6 +27,19 @@ public class Proceso {
         this.nombre = nombre;
     }
 
+    public Proceso(String nombre) {
+        this.nombre = nombre;
+        this.actividades = new ListaEnlazadaDoble<>();
+    }
+
+    public ListaEnlazadaDoble<Actividad> getActividades() {
+        return actividades;
+    }
+
+    public void setActividades(ListaEnlazadaDoble<Actividad> actividades) {
+        this.actividades = actividades;
+    }
+
     /**
      * Obtiene el identificador del proceso.
      *

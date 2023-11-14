@@ -32,6 +32,12 @@ public class Actividad {
         this.tareas = tareas;
     }
 
+    public Actividad(String nombre) {
+        this.nombre = nombre;
+        this.obligatoria = false;
+        this.tareas = new ListaEnlazadaDoble<>();
+    }
+
     // Getters y Setters
     /**
      * Obtiene la lista de tareas asociadas a la actividad.
@@ -177,20 +183,23 @@ public class Actividad {
      * @param actividad2 Actividad con la que se intercambiarán los datos.
      */
     public void intercambiarDatos(Actividad actividad2) {
-        Actividad temp = new Actividad();
+        if (actividad2 != null && actividad2.getNombre() != null && actividad2.getDescripcion() != null) {
+            Actividad temp = new Actividad();
 
-        temp.setNombre(getNombre());
-        temp.setDescripcion(getDescripcion());
-        temp.setObligatoria(isObligatoria());
+            temp.setNombre(getNombre());
+            temp.setDescripcion(getDescripcion());
+            temp.setObligatoria(isObligatoria());
 
-        setNombre(actividad2.getNombre());
-        setDescripcion(actividad2.getDescripcion());
-        setObligatoria(actividad2.isObligatoria());
+            setNombre(actividad2.getNombre());
+            setDescripcion(actividad2.getDescripcion());
+            setObligatoria(actividad2.isObligatoria());
 
-        actividad2.setNombre(temp.getNombre());
-        actividad2.setDescripcion(temp.getDescripcion());
-        actividad2.setObligatoria(temp.isObligatoria());
+            actividad2.setNombre(temp.getNombre());
+            actividad2.setDescripcion(temp.getDescripcion());
+            actividad2.setObligatoria(temp.isObligatoria());
+        }
     }
+
 
     /**
      * Intercambia las listas de tareas con otra actividad.

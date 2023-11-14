@@ -30,6 +30,11 @@ public class Tarea {
     public Tarea() {
     }
 
+    public Tarea(String nombre) {
+        this.nombre = nombre;
+        this.obligatoria = false;
+    }
+
     /**
      * Obtiene el nombre de la tarea.
      *

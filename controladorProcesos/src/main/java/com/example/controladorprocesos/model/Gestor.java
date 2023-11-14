@@ -1,24 +1,22 @@
 package com.example.controladorprocesos.model;
 
-import java.util.ArrayList;
-
 /**
  * Clase que gestiona procesos, usuarios y notificaciones en la aplicación.
  */
 public class Gestor {
     // Atributos
-    private ArrayList<Proceso> procesos;
-    private ArrayList<Usuario> usuarios;
-    private ArrayList<Notificacion> notificaciones;
+    private ListaEnlazadaDoble<Proceso> procesos;
+    private ListaEnlazadaDoble<Usuario> usuarios;
+    private ListaEnlazadaDoble<Notificacion> notificaciones;
 
     // Constructor
     /**
      * Constructor que inicializa las listas de procesos, usuarios y notificaciones.
      */
     public Gestor() {
-        this.procesos = new ArrayList<>();
-        this.usuarios = new ArrayList<>();
-        this.notificaciones = new ArrayList<>();
+        this.procesos = new ListaEnlazadaDoble<>();
+        this.usuarios = new ListaEnlazadaDoble<>();
+        this.notificaciones = new ListaEnlazadaDoble<>();
     }
 
     // Métodos para gestionar procesos

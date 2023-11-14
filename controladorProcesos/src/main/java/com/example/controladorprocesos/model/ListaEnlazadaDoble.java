@@ -69,25 +69,31 @@ public class ListaEnlazadaDoble<T> implements Iterable<T>{
      * @param dato El valor a guardar
      */
     public void agregar(T dato, int indice) {
+        if (indiceValido(indice)) {
+            Nodo<T> nuevo = new Nodo<>(dato);
 
-        if(indiceValido(indice)) {
-
-            if(indice==0) {
+            if (indice == 0) {
                 agregarInicio(dato);
-            }
-            else {
-                Nodo<T> nuevo = new Nodo<>(dato);
-                Nodo<T> actual = obtenerNodo(indice);
+            } else if (indice == size) {
+                agregarFinal(dato);
+            } else {
+                Nodo<T> actual = obtenerNodo(indice - 1);
 
-                nuevo.setSiguienteNodo(actual);
-                nuevo.setAnteriorNodo(actual.getAnteriorNodo());
-                actual.getAnteriorNodo().setSiguienteNodo(nuevo);
-                actual.setAnteriorNodo(nuevo);
+                if (actual != null) {
+                    nuevo.setSiguienteNodo(actual.getSiguienteNodo());
+                    nuevo.setAnteriorNodo(actual);
+                    actual.setSiguienteNodo(nuevo);
 
-                size++;
+                    if (nuevo.getSiguienteNodo() != null) {
+                        nuevo.getSiguienteNodo().setAnteriorNodo(nuevo);
+                    }
+
+                    size++;
+                }
             }
         }
     }
+
 
 
     /**
@@ -146,7 +152,7 @@ public class ListaEnlazadaDoble<T> implements Iterable<T>{
 
     //Verificar si indice es valido
     private boolean indiceValido(int indice) {
-        if( indice>=0 && indice<size ) {
+        if( indice>=0 && indice<=size ) {
             return true;
         }
         throw new RuntimeException("Índice no válido");
@@ -243,18 +249,22 @@ public class ListaEnlazadaDoble<T> implements Iterable<T>{
 
 
     /**
-     * Devuelve el Nodo de una lista dada su posición
+     * Devuelve el Nodo de una lista dado su posición
      * @param indice índice para obtener el Nodo
      * @return Nodo objeto
      */
     private Nodo<T> obtenerNodo(int indice) {
 
-        if(indice>=0 && indice<size) {
+        if(indice>=0 && indice<=size) {
 
             Nodo<T> nodo = nodoPrimero;
 
             for (int i = 0; i < indice; i++) {
-                nodo = nodo.getSiguienteNodo();
+                try {
+                    nodo = nodo.getSiguienteNodo();
+                } catch (NullPointerException e) {
+                    throw new IndexOutOfBoundsException("Índice fuera de los límites de la lista");
+                }
             }
 
             return nodo;
@@ -318,6 +328,17 @@ public class ListaEnlazadaDoble<T> implements Iterable<T>{
         return -1;
     }
 
+    public void remove(T valor) {
+        if(nodoPrimero!=null) {
+            eliminar(valor);
+        }
+    }
+
+    public void add(T e) {
+        agregarFinal(e);
+    }
+
+
 
     /**
      * Devuelve un elemento de la lista dado su índice
@@ -349,6 +370,13 @@ public class ListaEnlazadaDoble<T> implements Iterable<T>{
         return new IteradorListaDoble (nodoPrimero, nodoUltimo);
     }
 
+    public boolean contains(T valor) {
+        return buscarNodo(valor) != null;
+    }
+
+    public int size() {
+        return getSize();
+    }
 
 
     protected class IteradorListaDoble implements Iterator<T> {

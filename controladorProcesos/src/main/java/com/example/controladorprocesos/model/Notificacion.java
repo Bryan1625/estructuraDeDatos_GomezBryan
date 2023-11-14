@@ -33,6 +33,12 @@ public class Notificacion {
     public Notificacion() {
     }
 
+    public Notificacion(int id, String mensaje) {
+        this.id = id;
+        this.mensaje = mensaje;
+        leido = false;
+    }
+
     // Getters y Setters
 
     /**
@@ -106,27 +112,32 @@ public class Notificacion {
      * @param mensaje             Cuerpo del correo.
      * @param configuracionCorreo Configuración del correo (usuario y contraseña).
      */
-    public void enviarCorreoElectronico(String destinatario, String asunto, String mensaje, ConfiguracionCorreo configuracionCorreo) {
+    public void enviarCorreoElectronico(String destinatario, String asunto, String mensaje, final ConfiguracionCorreo configuracionCorreo) {
+
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+        properties.setProperty("mail.smtp.port", "587");
+        properties.setProperty("mail.smtp.user", configuracionCorreo.getUsuario());
+        properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+        properties.setProperty("mail.smtp.auth", "true");
 
-        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(configuracionCorreo.getUsuario(), configuracionCorreo.getContrasenia());
-            }
-        });
+        // Usar la instancia temporal de Authenticator solo para esta sesión
+        Session session = Session.getDefaultInstance(properties);
 
         try {
             Message correo = new MimeMessage(session);
             correo.setFrom(new InternetAddress(configuracionCorreo.getUsuario()));
-            correo.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
+            correo.setRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
             correo.setSubject(asunto);
             correo.setText(mensaje);
 
-            Transport.send(correo);
+            Transport transport = session.getTransport("smtp");
+            transport.connect(configuracionCorreo.getUsuario(), configuracionCorreo.getContrasenia());
+            transport.sendMessage(correo,correo.getRecipients(Message.RecipientType.TO));
+            transport.close();
+
             System.out.println("Correo electrónico enviado correctamente.");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
