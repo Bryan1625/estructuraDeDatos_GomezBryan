@@ -35,6 +35,17 @@ public class Tarea {
         this.obligatoria = false;
     }
 
+    public Tarea(String nombre, double tiempoMinutos) {
+        this.nombre = nombre;
+        this.tiempoMinutos = tiempoMinutos;
+    }
+
+    public Tarea(String nombre, boolean obligatoria, int tiempoMinutos) {
+        this.nombre = nombre;
+        this.obligatoria = obligatoria;
+        this.tiempoMinutos = tiempoMinutos;
+    }
+
     /**
      * Obtiene el nombre de la tarea.
      *

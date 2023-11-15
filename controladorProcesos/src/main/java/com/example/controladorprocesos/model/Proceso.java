@@ -13,7 +13,7 @@ public class Proceso {
      * Constructor por defecto de la clase Proceso.
      */
     public Proceso() {
-
+        this.actividades = new ListaEnlazadaDoble<>();
     }
 
     /**
@@ -25,6 +25,7 @@ public class Proceso {
     public Proceso(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
+        this.actividades = new ListaEnlazadaDoble<>();
     }
 
     public Proceso(String nombre) {
@@ -101,6 +102,9 @@ public class Proceso {
      */
     public double obtenerDuracionTotal() {
         double duracionTotal = 0;
+        if(actividades != null && actividades.size() == 0){
+            return 0;
+        }
         for (Actividad actividad : actividades) {
             duracionTotal += actividad.calcularDuracionEstimada();
         }
