@@ -8,6 +8,7 @@ public class Actividad {
     private String nombre;
     private String descripcion;
     private boolean obligatoria;
+    private double tiempo;
     private ListaEnlazadaDoble<Tarea> tareas;
 
     // Constructores
@@ -32,6 +33,13 @@ public class Actividad {
         this.tareas = tareas;
     }
 
+    public Actividad(String nombre, String descripcion, boolean obligatoria) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.obligatoria = obligatoria;
+        this.tareas =  new ListaEnlazadaDoble<>();
+    }
+
     public Actividad(String nombre) {
         this.nombre = nombre;
         this.obligatoria = false;
@@ -39,6 +47,20 @@ public class Actividad {
     }
 
     // Getters y Setters
+
+
+    public void actualizarTiempo(){
+        this.tiempo = calcularDuracionEstimada();
+    }
+    public double getTiempo() {
+        actualizarTiempo();
+        return tiempo;
+    }
+
+    public void setTiempo(double tiempo) {
+        this.tiempo = tiempo;
+    }
+
     /**
      * Obtiene la lista de tareas asociadas a la actividad.
      *

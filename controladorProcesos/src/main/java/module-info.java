@@ -2,6 +2,8 @@ module com.example.controladorprocesos {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.mail;
+    requires poi;
+    requires poi.ooxml;
 
 
     opens com.example.controladorprocesos to javafx.fxml;

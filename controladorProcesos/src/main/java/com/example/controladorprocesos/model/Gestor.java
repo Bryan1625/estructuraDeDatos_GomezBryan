@@ -1,5 +1,13 @@
 package com.example.controladorprocesos.model;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * Clase que gestiona procesos, usuarios y notificaciones en la aplicación.
  */
@@ -17,6 +25,30 @@ public class Gestor {
         this.procesos = new ListaEnlazadaDoble<>();
         this.usuarios = new ListaEnlazadaDoble<>();
         this.notificaciones = new ListaEnlazadaDoble<>();
+    }
+
+    public ListaEnlazadaDoble<Proceso> getProcesos() {
+        return procesos;
+    }
+
+    public void setProcesos(ListaEnlazadaDoble<Proceso> procesos) {
+        this.procesos = procesos;
+    }
+
+    public ListaEnlazadaDoble<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(ListaEnlazadaDoble<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public ListaEnlazadaDoble<Notificacion> getNotificaciones() {
+        return notificaciones;
+    }
+
+    public void setNotificaciones(ListaEnlazadaDoble<Notificacion> notificaciones) {
+        this.notificaciones = notificaciones;
     }
 
     // Métodos para gestionar procesos
@@ -162,5 +194,59 @@ public class Gestor {
      */
     public Tarea buscarTareaEnProceso(Proceso proceso, String nombreTarea) {
         return proceso.buscarTareaInicio(nombreTarea);
+    }
+
+
+    public void exportarExcelProceso(Proceso proceso, String nombreArchivo) {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Proceso");
+
+            // Crear la primera fila con los encabezados
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("ID");
+            headerRow.createCell(1).setCellValue("Nombre");
+            headerRow.createCell(2).setCellValue("Tiempo (minutos)");
+
+            // Crear una fila con los datos del proceso
+            Row dataRow = sheet.createRow(1);
+            dataRow.createCell(0).setCellValue(proceso.getId());
+            dataRow.createCell(1).setCellValue(proceso.getNombre());
+            dataRow.createCell(2).setCellValue(proceso.getTiempoMinutos());
+
+            // Escribir el archivo Excel
+            try (FileOutputStream fileOut = new FileOutputStream(nombreArchivo)) {
+                workbook.write(fileOut);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exportarExcelListaProcesos(String nombreArchivo) {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Procesos");
+
+            // Crear la primera fila con los encabezados
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("ID");
+            headerRow.createCell(1).setCellValue("Nombre");
+            headerRow.createCell(2).setCellValue("Tiempo (minutos)");
+
+            // Crear filas con los datos de cada proceso
+            int rowNum = 1;
+            for (Proceso proceso : procesos) {
+                Row dataRow = sheet.createRow(rowNum++);
+                dataRow.createCell(0).setCellValue(proceso.getId());
+                dataRow.createCell(1).setCellValue(proceso.getNombre());
+                dataRow.createCell(2).setCellValue(proceso.getTiempoMinutos());
+            }
+
+            // Escribir el archivo Excel
+            try (FileOutputStream fileOut = new FileOutputStream(nombreArchivo)) {
+                workbook.write(fileOut);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

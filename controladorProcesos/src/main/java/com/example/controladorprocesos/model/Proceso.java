@@ -6,6 +6,7 @@ package com.example.controladorprocesos.model;
 public class Proceso {
     private int id;
     private String nombre;
+    private double tiempoMinutos;
     private ListaEnlazadaDoble<Actividad> actividades;
     private Actividad ultimaActividadInsertada;
 
@@ -26,7 +27,10 @@ public class Proceso {
         this.id = id;
         this.nombre = nombre;
         this.actividades = new ListaEnlazadaDoble<>();
+        this.tiempoMinutos = 0;
     }
+
+
 
     public Proceso(String nombre) {
         this.nombre = nombre;
@@ -48,6 +52,19 @@ public class Proceso {
      */
     public int getId() {
         return id;
+    }
+
+    public double getTiempoMinutos() {
+        actualizarTiempo();
+        return tiempoMinutos;
+    }
+
+    public void setTiempoMinutos(double tiempoMinutos) {
+        this.tiempoMinutos = tiempoMinutos;
+    }
+
+    public void actualizarTiempo(){
+        this.tiempoMinutos = obtenerDuracionTotal();
     }
 
     /**
