@@ -10,7 +10,11 @@ public class Actividad {
     private boolean obligatoria;
     private double tiempo;
     private ListaEnlazadaDoble<Tarea> tareas;
+    private String usuario;
 
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
     // Constructores
     /**
      * Constructor vacío de la actividad.
@@ -234,5 +238,18 @@ public class Actividad {
 
         setTareas(copiaTareas2);
         actividad2.setTareas(copiaTareas1);
+    }
+
+    public void realizarActividad(String usuario){
+        this.usuario = usuario;
+        for (Tarea tarea:tareas) {
+            tarea.realizarTarea(usuario);
+            enviarNotificacionActividadTerminada("la actividad "+ nombre + " ha sido completada con exito");
+        }
+    }
+
+    public void enviarNotificacionActividadTerminada(String mensaje){
+        Notificacion n = new Notificacion(1,mensaje);
+        n.enviarCorreoElectronico(usuario,nombre,mensaje);
     }
 }

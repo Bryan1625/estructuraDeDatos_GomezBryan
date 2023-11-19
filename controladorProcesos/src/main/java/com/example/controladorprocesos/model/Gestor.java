@@ -16,6 +16,7 @@ public class Gestor {
     private ListaEnlazadaDoble<Proceso> procesos;
     private ListaEnlazadaDoble<Usuario> usuarios;
     private ListaEnlazadaDoble<Notificacion> notificaciones;
+    private Usuario usuario;
 
     // Constructor
     /**
@@ -247,6 +248,21 @@ public class Gestor {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void login(String usuario, String contrasenia){
+        for (Usuario u:usuarios) {
+            if (usuario == u.getNombreUsuario() && contrasenia == u.getContrasenia()) {
+                this.usuario = u;
+                realizarProcesos();
+            }
+        }
+    }
+
+    public void realizarProcesos(){
+        for (Proceso p: procesos) {
+            p.realizarProceso(usuario.getNombreUsuario());
         }
     }
 }

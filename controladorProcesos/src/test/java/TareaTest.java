@@ -37,7 +37,7 @@ class TareaTest {
         Tarea tarea = new Tarea("Tarea3", 0.5); // 0.5 minutos = 30 segundos
 
         long startTime = System.currentTimeMillis();
-        tarea.realizarTarea();
+        tarea.realizarTarea("bryangomez1625@gmail.com");
         long endTime = System.currentTimeMillis();
 
         // Asumimos que el tiempo de espera es aproximadamente igual al tiempo estimado de la tarea

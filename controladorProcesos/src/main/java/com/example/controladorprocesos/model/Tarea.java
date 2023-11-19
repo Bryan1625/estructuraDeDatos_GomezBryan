@@ -8,6 +8,11 @@ public class Tarea {
     private String descripcion;
     private boolean obligatoria;
     private double tiempoMinutos;
+    private String usuario;
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     /**
      * Constructor de la clase Tarea con parámetros.
@@ -121,11 +126,18 @@ public class Tarea {
     /**
      * Simula la realización de la tarea esperando el tiempo estimado.
      */
-    public void realizarTarea() {
+    public void realizarTarea(String usuario) {
+        this.usuario = usuario;
         try {
             Thread.sleep((long) (tiempoMinutos * 60000L));
+            enviarNotificacionTareaTerminada("la tarea" + nombre + " ha sizo realizada de forma exitosa");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void enviarNotificacionTareaTerminada(String mensaje){
+        Notificacion n = new Notificacion(1,mensaje);
+        n.enviarCorreoElectronico(usuario,nombre,mensaje);
     }
 }

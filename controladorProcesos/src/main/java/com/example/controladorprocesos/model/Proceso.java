@@ -9,6 +9,11 @@ public class Proceso {
     private double tiempoMinutos;
     private ListaEnlazadaDoble<Actividad> actividades;
     private Actividad ultimaActividadInsertada;
+    private String usuario;
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     /**
      * Constructor por defecto de la clase Proceso.
@@ -228,5 +233,18 @@ public class Proceso {
      */
     public void eliminarActividad(Actividad actividad) {
         actividades.eliminar(actividad);
+    }
+
+    public void realizarProceso(String usuario){
+        this.usuario = usuario;
+        for (Actividad actividad: actividades) {
+         actividad.realizarActividad(usuario);
+         enviarNotificacionProcesoTerminada("el proceso "+ nombre + " ha sido completado con exito");
+        }
+    }
+
+    public void enviarNotificacionProcesoTerminada(String mensaje){
+        Notificacion n = new Notificacion(1,mensaje);
+        n.enviarCorreoElectronico(usuario,nombre,mensaje);
     }
 }

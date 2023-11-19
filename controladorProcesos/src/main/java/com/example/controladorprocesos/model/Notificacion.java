@@ -110,10 +110,10 @@ public class Notificacion {
      * @param destinatario        Dirección de correo del destinatario.
      * @param asunto              Asunto del correo.
      * @param mensaje             Cuerpo del correo.
-     * @param configuracionCorreo Configuración del correo (usuario y contraseña).
      */
-    public void enviarCorreoElectronico(String destinatario, String asunto, String mensaje, final ConfiguracionCorreo configuracionCorreo) {
+    public void enviarCorreoElectronico(String destinatario, String asunto, String mensaje) {
 
+        ConfiguracionCorreo configuracionCorreo = new ConfiguracionCorreo();
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
