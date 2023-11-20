@@ -1,5 +1,9 @@
 package com.example.controladorprocesos.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Representa un proceso que contiene actividades.
  */
@@ -7,6 +11,7 @@ public class Proceso {
     private int id;
     private String nombre;
     private double tiempoMinutos;
+    private int numeroActividades;
     private ListaEnlazadaDoble<Actividad> actividades;
     private Actividad ultimaActividadInsertada;
     private String usuario;
@@ -48,6 +53,7 @@ public class Proceso {
 
     public void setActividades(ListaEnlazadaDoble<Actividad> actividades) {
         this.actividades = actividades;
+        numeroActividades = actividades.getSize();
     }
 
     /**
@@ -165,6 +171,14 @@ public class Proceso {
         return null;
     }
 
+    public List<Tarea> obtenerTareasProceso(){
+        List<Tarea> tareas = new ArrayList<>();
+        for (Actividad actividad:actividades) {
+            tareas.addAll(actividad.obtenerTareasList());
+        }
+        return tareas;
+    }
+
     /**
      * Busca una tarea en una actividad dado el nombre de la actividad.
      *
@@ -224,6 +238,17 @@ public class Proceso {
     public void agregarActividad(Actividad actividad) {
         actividades.agregarFinal(actividad);
         setUltimaActividadInsertada(actividad);
+        numeroActividades++;
+    }
+
+    public void agregarActividadDespuesDeOtra(Actividad nueva, Actividad anterior){
+        actividades.agregar(nueva,actividades.obtenerPosicionNodo(anterior));
+        numeroActividades++;
+    }
+
+    public void agregarDespuesUltimaActividad(Actividad actividad){
+        agregarActividadDespuesDeOtra(actividad, ultimaActividadInsertada);
+        numeroActividades++;
     }
 
     /**
@@ -233,6 +258,7 @@ public class Proceso {
      */
     public void eliminarActividad(Actividad actividad) {
         actividades.eliminar(actividad);
+        numeroActividades--;
     }
 
     public void realizarProceso(String usuario){

@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<TabPane prefHeight="425.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane fx:id="tabPane" prefHeight="425.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controladorprocesos.controllers.GestorController">
     <tabs>
         <Tab text="UiLogin">
             <content>
@@ -33,7 +33,7 @@
                 </AnchorPane>
             </content>
         </Tab>
-        <Tab text="UiUser">
+        <Tab text="UiUser" fx:id="tabUIUsuario">
             <content>
                 <ScrollPane fitToHeight="true" fitToWidth="true">
                     <content>
@@ -112,7 +112,7 @@
         </Tab>
 
         <!-- UiAdmin Tab -->
-        <Tab text="UiAdmin">
+        <Tab text="UiAdmin" fx:id="tabUIAdministrador">
             <content>
                 <ScrollPane fitToHeight="true" fitToWidth="true">
                     <content>

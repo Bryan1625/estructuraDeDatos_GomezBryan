@@ -1,5 +1,8 @@
 package com.example.controladorprocesos.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Clase que representa una actividad en un proceso.
  */
@@ -10,6 +13,7 @@ public class Actividad {
     private boolean obligatoria;
     private double tiempo;
     private ListaEnlazadaDoble<Tarea> tareas;
+    private int numeroTareas;
     private String usuario;
 
     public void setUsuario(String usuario) {
@@ -20,6 +24,10 @@ public class Actividad {
      * Constructor vacío de la actividad.
      */
     public Actividad() {
+    }
+
+    public int getNumeroTareas() {
+        return tareas.getSize();
     }
 
     /**
@@ -74,6 +82,14 @@ public class Actividad {
         return tareas;
     }
 
+    public List<Tarea> obtenerTareasList(){
+        List<Tarea> tareas = new ArrayList<>();
+        for (Tarea tarea: tareas) {
+            tareas.add(tarea);
+        }
+        return tareas;
+    }
+
     /**
      * Establece la lista de tareas asociadas a la actividad.
      *
@@ -81,6 +97,7 @@ public class Actividad {
      */
     public void setTareas(ListaEnlazadaDoble<Tarea> tareas) {
         this.tareas = tareas;
+        this.numeroTareas = tareas.getSize();
     }
 
     /**
@@ -145,6 +162,7 @@ public class Actividad {
      */
     public void agregarTarea(Tarea tarea) {
         tareas.agregarFinal(tarea);
+        numeroTareas++;
     }
 
     /**
@@ -155,6 +173,7 @@ public class Actividad {
      */
     public void agregarTarea(Tarea tarea, int i) {
         tareas.agregar(tarea, i);
+        numeroTareas++;
     }
 
     /**
@@ -164,6 +183,7 @@ public class Actividad {
      */
     public void eliminarTarea(Tarea tarea) {
         tareas.eliminar(tarea);
+        numeroTareas--;
     }
 
     /**

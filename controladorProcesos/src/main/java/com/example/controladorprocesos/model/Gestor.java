@@ -7,16 +7,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase que gestiona procesos, usuarios y notificaciones en la aplicación.
  */
-public class Gestor {
+public class Gestor implements Runnable{
     // Atributos
     private ListaEnlazadaDoble<Proceso> procesos;
     private ListaEnlazadaDoble<Usuario> usuarios;
     private ListaEnlazadaDoble<Notificacion> notificaciones;
     private Usuario usuario;
+    private boolean loggedIn = false;
 
     // Constructor
     /**
@@ -86,14 +89,29 @@ public class Gestor {
         return null;
     }
 
+    public List<Proceso> buscarProcesosPorNombre(String nombre) {
+        List<Proceso> procesosEncontrados = new ArrayList<>();
+        for (Proceso proceso : procesos) {
+            if (proceso.getNombre().equalsIgnoreCase(nombre)) {
+                procesosEncontrados.add(proceso);
+            }
+        }
+        return procesosEncontrados;
+    }
+
+
     // Métodos para gestionar usuarios
     /**
      * Agrega un usuario a la lista de usuarios.
      *
      * @param usuario Usuario a agregar.
      */
-    public void agregarUsuario(Usuario usuario) {
-        usuarios.add(usuario);
+    public boolean agregarUsuario(Usuario usuario) {
+        boolean exito = usuarios.contains(usuario);
+        if(!exito) {
+            usuarios.add(usuario);
+        }
+        return exito;
     }
 
     /**
@@ -119,6 +137,17 @@ public class Gestor {
         }
         return null;
     }
+
+    public List<Usuario> buscarUsuariosPorNombre(String nombre) {
+        List<Usuario> usuariosEncontrados = new ArrayList<>();
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNombreUsuario().equalsIgnoreCase(nombre)) {
+                usuariosEncontrados.add(usuario);
+            }
+        }
+        return usuariosEncontrados;
+    }
+
 
     // Métodos para gestionar notificaciones
     /**
@@ -197,6 +226,21 @@ public class Gestor {
         return proceso.buscarTareaInicio(nombreTarea);
     }
 
+    public List<Tarea> buscarTareasPorNombre(String nombreTarea) {
+        List<Tarea> tareasEncontradas = new ArrayList<>();
+        for (Proceso proceso : procesos) {
+            for (Actividad actividad : proceso.getActividades()) {
+                for (Tarea tarea : actividad.getTareas()) {
+                    if (tarea.getNombre().equalsIgnoreCase(nombreTarea)) {
+                        tareasEncontradas.add(tarea);
+                    }
+                }
+            }
+        }
+        return tareasEncontradas;
+    }
+
+
 
     public void exportarExcelProceso(Proceso proceso, String nombreArchivo) {
         try (Workbook workbook = new XSSFWorkbook()) {
@@ -222,6 +266,35 @@ public class Gestor {
             e.printStackTrace();
         }
     }
+
+
+    public void exportarExcelListaUsuarios(String nombreArchivo) {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Usuarios");
+
+            // Crear la primera fila con los encabezados
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Usuario");
+            headerRow.createCell(1).setCellValue("contraseña");
+
+            // Crear filas con los datos de cada proceso
+            int rowNum = 1;
+            for (Usuario usuario : usuarios) {
+                Row dataRow = sheet.createRow(rowNum++);
+                dataRow.createCell(0).setCellValue(usuario.getNombreUsuario());
+                dataRow.createCell(1).setCellValue(usuario.getContrasenia());
+            }
+
+            // Escribir el archivo Excel
+            try (FileOutputStream fileOut = new FileOutputStream(nombreArchivo)) {
+                workbook.write(fileOut);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public void exportarExcelListaProcesos(String nombreArchivo) {
         try (Workbook workbook = new XSSFWorkbook()) {
@@ -251,18 +324,111 @@ public class Gestor {
         }
     }
 
-    public void login(String usuario, String contrasenia){
+    public Usuario login(String usuario, String contrasenia){
+        for (Usuario u:usuarios) {
+            if (usuario.equals(u.getNombreUsuario()) && contrasenia.equals(u.getContrasenia())) {
+                this.usuario = u;
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public boolean usuarioCorrecto(String usuario, String contrasenia){
         for (Usuario u:usuarios) {
             if (usuario == u.getNombreUsuario() && contrasenia == u.getContrasenia()) {
                 this.usuario = u;
-                realizarProcesos();
+                return true;
             }
         }
+        return false;
     }
 
     public void realizarProcesos(){
         for (Proceso p: procesos) {
             p.realizarProceso(usuario.getNombreUsuario());
+        }
+    }
+
+    // Método genérico para buscar procesos por ID
+    public Proceso buscarProcesoPorId(int idProceso) {
+        for (Proceso proceso : procesos) {
+            if (proceso.getId() == idProceso) {
+                return proceso;
+            }
+        }
+        return null;
+    }
+
+    // Método genérico para buscar actividades por nombre
+    public Actividad buscarActividadPorNombre(String nombreActividad) {
+        for (Proceso proceso : procesos) {
+            for (Actividad actividad : proceso.getActividades()) {
+                if (actividad.getNombre().equalsIgnoreCase(nombreActividad)) {
+                    return actividad;
+                }
+            }
+        }
+        return null;
+    }
+
+    public List<Actividad> buscarActividadesPorNombre(String nombreActividad){
+        List<Actividad> actividades = new ArrayList<>();
+        for (Proceso proceso : procesos) {
+            for (Actividad actividad : proceso.getActividades()) {
+                if (actividad.getNombre().equalsIgnoreCase(nombreActividad)) {
+                    actividades.add(actividad);
+                }
+            }
+        }
+        return actividades;
+    }
+
+    // Método genérico para buscar tareas por nombre
+    public Tarea buscarTareaPorNombre(String nombreTarea) {
+        for (Proceso proceso : procesos) {
+            for (Actividad actividad : proceso.getActividades()) {
+                for (Tarea tarea : actividad.getTareas()) {
+                    if (tarea.getNombre().equalsIgnoreCase(nombreTarea)) {
+                        return tarea;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean loginAndStart(String usuario, String contrasenia) {
+        login(usuario,contrasenia);
+        boolean loginExitoso = usuarioCorrecto(usuario, contrasenia);
+
+        if (loginExitoso) {
+            Thread procesoThread = new Thread(this);
+            procesoThread.start();
+        }
+
+        return loginExitoso;
+    }
+
+
+    @Override
+    public void run() {
+        if (!loggedIn) {
+            // Si no se ha iniciado sesión, no realizar procesos
+            System.out.println("Usuario no ha iniciado sesión. No se realizarán procesos.");
+            return;
+        }
+
+        while (!Thread.interrupted()) {
+            for (Proceso p : procesos) {
+                p.realizarProceso(usuario.getNombreUsuario());
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 }

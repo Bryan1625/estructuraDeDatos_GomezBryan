@@ -3,12 +3,17 @@ package com.example.controladorprocesos.model;
 public class Usuario {
     private String nombreUsuario;
     private String contrasenia;
+    private final String administrador = "Bryan";
     private TipoUsuario tipoUsuario;
 
-    public Usuario(String nombreUsuario, String contrasenia, TipoUsuario tipoUsuario) {
+    public Usuario(String nombreUsuario, String contrasenia) {
         this.nombreUsuario = nombreUsuario;
         this.contrasenia = contrasenia;
-        this.tipoUsuario = tipoUsuario;
+        if(nombreUsuario == administrador){
+            this.tipoUsuario = TipoUsuario.ADMINISTRADOR;
+        }else{
+            this.tipoUsuario = TipoUsuario.USUARIO_REGULAR;
+        }
     }
 
     public Usuario(String nombreUsuario) {
@@ -39,4 +44,3 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 }
-// solo administradores crean procesos

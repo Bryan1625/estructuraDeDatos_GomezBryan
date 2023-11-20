@@ -86,7 +86,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.controladorprocesos/com.example.controladorprocesos.HelloApplication
+                                com.example.controladorprocesos/com.example.controladorprocesos.MainApp
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
