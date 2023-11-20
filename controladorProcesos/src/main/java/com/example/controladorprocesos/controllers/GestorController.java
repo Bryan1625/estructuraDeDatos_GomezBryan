@@ -8,6 +8,9 @@ import javafx.scene.control.*;
 import com.example.controladorprocesos.model.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GestorController {
 
 
@@ -230,29 +233,49 @@ public class GestorController {
         String nombreUsuario = txtFieldLoginUsuario.getText();
         String contraseniaUsuario = txtFieldLoginContrasenia.getText();
         this.login = loginController.login(nombreUsuario,contraseniaUsuario);
-        if(this.login.getTipoUsuario() == TipoUsuario.ADMINISTRADOR){
-            tabPane.getTabs().remove(tabUIUsuario);
+        if(this.login != null) {
+            if (this.login.getTipoUsuario() == TipoUsuario.ADMINISTRADOR) {
+                tabPane.getTabs().remove(tabUIUsuario);
+            } else {
+                tabPane.getTabs().remove(tabUIAdministrador);
+            }
         }else{
-            tabPane.getTabs().remove(tabUIAdministrador);
+            lanzarAlertaError("el usuario o la contraseña son incorrectos");
         }
+    }
+
+    public void lanzarAlertaError(String mensaje){
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null); // No mostrar encabezado
+        alerta.setContentText(mensaje);
+
+        alerta.showAndWait();
     }
 
     /////////////////////////////////usuario///////////////////////////////////////
     public void usuarioBuscarProcesoNombre(ActionEvent actionEvent) {
         String nombreProceso = txtFieldUsuarioNombreProceso.getText();
-        usuarioController.buscarProcesoNombre(nombreProceso);
+        listaBusquedaProcesos.setAll(usuarioController.buscarProcesoNombre(nombreProceso));
+        tableViewUsuarioProcesos.setItems(listaBusquedaProcesos);
     }
 
     public void usuarioBuscarProcesoId(ActionEvent actionEvent) {
         int idProceso = Integer.parseInt(txtFieldUsuarioIdProceso.getText());
-        usuarioController.buscarProcesoId(idProceso);
+        listaBusquedaProcesos.clear();
+        listaBusquedaProcesos.add(usuarioController.buscarProcesoId(idProceso));
     }
 
     public void usuarioActualizarTablaProcesos(ActionEvent actionEvent) {
-
+        tableViewUsuarioProcesos.setItems(listaTotalProcesos);
     }
 
     public void usuarioBuscarActividadNombre(ActionEvent actionEvent) {
+        String nombre = txtFieldUsuarioNombreActividad.getText();
+        listaBusquedaActividades.clear();
+        if(procesoSeleccionado != null) {
+            listaBusquedaActividades.add(procesoSeleccionado.buscarActividad(nombre));
+        }
     }
 
     public void usuarioActualizarTablaActividades(ActionEvent actionEvent) {

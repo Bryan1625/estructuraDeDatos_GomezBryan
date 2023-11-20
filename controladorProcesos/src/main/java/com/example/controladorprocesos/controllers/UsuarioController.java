@@ -1,9 +1,19 @@
 package com.example.controladorprocesos.controllers;
 
+import com.example.controladorprocesos.model.*;
+
+import java.util.List;
+
 public class UsuarioController {
-    public void buscarProcesoNombre(String nombreProceso) {
+    ModelFactoryController modelFactoryController;
+    public UsuarioController(){
+        modelFactoryController = ModelFactoryController.getInstance();
+    }
+    public List<Proceso> buscarProcesoNombre(String nombreProceso) {
+        return modelFactoryController.buscarProcesosNombre(nombreProceso);
     }
 
-    public void buscarProcesoId(int idProceso) {
+    public Proceso buscarProcesoId(int idProceso) {
+        return modelFactoryController.buscarProcesoId(idProceso);
     }
 }
