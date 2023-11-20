@@ -44,6 +44,7 @@ public class GestorController {
     private Actividad actividadSeleccionada;
 
     private Tarea tareaSeleccionada;
+    private Usuario usuarioSeleccionado;
 
     Usuario login;
 
@@ -493,9 +494,21 @@ public class GestorController {
     }
 
     public void adminEliminarUsuario(ActionEvent actionEvent) {
+        if(listaTotalUsuarios.contains(usuarioSeleccionado)){
+            administradorController.eliminarUsuario(usuarioSeleccionado);
+        }else{
+            lanzarAlertaError("el usuario no existe");
+        }
     }
 
     public void adminAgregarUsuario(ActionEvent actionEvent) {
+        String nombreUsuario = txtFieldAdminitradorNombreUsuario.getText();
+        String contrasenia = txtFieldAdminitradorContrasenia.getText();
+        if (administradorController.buscarUsuario(nombreUsuario) == null) {
+            administradorController.agregarUsuario(new Usuario(nombreUsuario, contrasenia));
+        } else {
+            lanzarAlertaError("el usuario ya existe");
+        }
     }
 
     public void adminExportarUsuariosExcel(ActionEvent actionEvent) {
@@ -505,20 +518,59 @@ public class GestorController {
     }
 
     public void adminEliminarTarea(ActionEvent actionEvent) {
+        if(listaTotalTareas.contains(tareaSeleccionada)) {
+            if(actividadSeleccionada != null) {
+                administradorController.eliminarTarea(actividadSeleccionada, tareaSeleccionada);
+            }else{
+                lanzarAlertaError("debe seleccionar una actividad primero");
+            }
+        }else{
+            lanzarAlertaError("no existe la tarea");
+        }
     }
 
     public void adminEliminarActividad(ActionEvent actionEvent) {
+        if(listaTotalActividades.contains(actividadSeleccionada)) {
+            if(procesoSeleccionado != null) {
+                administradorController.eliminarActividad(procesoSeleccionado, actividadSeleccionada);
+            }else{
+                lanzarAlertaError("debe seleccionar un proceso primero");
+            }
+        }else{
+            lanzarAlertaError("no existe la actividad");
+        }
     }
 
     public void adminEliminarProceso(ActionEvent actionEvent) {
+        if(listaTotalProcesos.contains(procesoSeleccionado) && procesoSeleccionado != null){
+            administradorController.eliminarProceso(procesoSeleccionado);
+        }else{
+            lanzarAlertaError("no se encontro el proceso");
+        }
     }
 
     public void adminAgregarProceso(ActionEvent actionEvent) {
+        String id = txtFieldAdminIdProceso.getText();
+        String nombre = txtFieldAdminNombreProceso.getText();
+        if (administradorController.buscarProcesoId(Integer.parseInt(id)) == null){
+            administradorController.agregarProceso(new Proceso(Integer.parseInt(id), nombre));
+        }else{
+            lanzarAlertaError("el proceso ya existe");
+        }
+
     }
 
     public void adminAgregarActividad(ActionEvent actionEvent) {
+        String nombre = txtFieldAdminitradorNombreActividad.getText();
+        String descripcion = txtAreaAdminDescripcionActividad.getText();
+        administradorController.agregarActividad(procesoSeleccionado, new Actividad(nombre,descripcion));
     }
 
     public void adminAgregarTarea(ActionEvent actionEvent) {
+        String nombre = txtFieldAdminitradorNombreTarea.getText();
+        String descripcion = txtAreaAdminDescripcionTarea.getText();
+        String tiempo = txtFieldAdminitradorTiempoTarea.getText();
+
+        administradorController.agregarTarea(actividadSeleccionada, new Tarea(nombre,descripcion, Double.parseDouble(tiempo)));
     }
 }

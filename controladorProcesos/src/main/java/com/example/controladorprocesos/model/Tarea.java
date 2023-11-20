@@ -30,6 +30,12 @@ public class Tarea {
         this.tiempoMinutos = tiempoMinutos;
     }
 
+    public Tarea(String nombre, String descripcion, double tiempoMinutos) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tiempoMinutos = tiempoMinutos;
+    }
+
     public void actualizarTiempoMinutos() {
         this.tiempoMinutos = tiempoRestante / 60.0; // Convertir segundos a minutos
     }
@@ -137,11 +143,10 @@ public class Tarea {
 
         while (tiempoRestante > 0 && !Thread.interrupted()) {
             try {
-                Thread.sleep(1000); // Esperar un segundo
+                Thread.sleep(1000);
                 tiempoRestante--;
                 actualizarTiempoMinutos();
 
-                // Puedes imprimir el tiempo restante si lo deseas
                 System.out.println("Tiempo restante para la tarea '" + nombre + "': " + tiempoRestante + " segundos");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

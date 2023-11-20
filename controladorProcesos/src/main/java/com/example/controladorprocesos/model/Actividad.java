@@ -52,6 +52,13 @@ public class Actividad {
         this.tareas =  new ListaEnlazadaDoble<>();
     }
 
+    public Actividad(String nombre, String descripcion) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.obligatoria = false;
+        this.tareas = new ListaEnlazadaDoble<>();
+    }
+
     public Actividad(String nombre) {
         this.nombre = nombre;
         this.obligatoria = false;
