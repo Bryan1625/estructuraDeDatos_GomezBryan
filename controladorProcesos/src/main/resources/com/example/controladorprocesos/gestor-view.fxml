@@ -145,7 +145,7 @@
         <Label layoutX="9.0" layoutY="452.0" text="nombre:" />
         <Label layoutX="8.0" layoutY="485.0" text="obligatoria:" />
         <Label layoutX="286.0" layoutY="452.0" text="descripcion:" />
-        <TextField fx:id="txtFieldAdminitradorNombreActividad" editable="false" layoutX="75.0" layoutY="448.0" />
+        <TextField fx:id="txtFieldAdministradorNombreActividad" editable="false" layoutX="75.0" layoutY="448.0" />
         <TextArea fx:id="txtAreaAdminDescripcionActividad" editable="false" layoutX="359.0" layoutY="445.0" prefHeight="114.0" prefWidth="217.0" />
         <Button layoutX="235.0" layoutY="578.0" mnemonicParsing="false" onAction="#adminBuscarActividadNombre" prefHeight="25.0" prefWidth="123.0" text="Buscar por Nombre" />
         <Button layoutX="362.0" layoutY="578.0" mnemonicParsing="false" onAction="#adminActualizarTablaActividades" text="Actualizar tabla" />
@@ -159,8 +159,8 @@
         <TextArea fx:id="txtAreaAdminDescripcionTarea" editable="false" layoutX="352.0" layoutY="881.0" prefHeight="83.0" prefWidth="217.0" />
         <TableView fx:id="tableViewAdministradorTareas" layoutY="1018.0" prefHeight="192.0" prefWidth="600.0">
             <columns>
-                <TableColumn prefWidth="233.0" text="Obligatoria" />
-                <TableColumn prefWidth="366.0" text="Nombre" />
+                <TableColumn fx:id="colAdminTareaObligatoria" prefWidth="233.0" text="Obligatoria" />
+                <TableColumn fx:id="colAdminNombreTarea" prefWidth="366.0" text="Nombre" />
             </columns>
         </TableView>
         <Button layoutX="244.0" layoutY="982.0" mnemonicParsing="false" onAction="#adminBuscarTareaNombre" text="Buscar por Nombre" />

@@ -41,7 +41,6 @@ public class Proceso {
     }
 
 
-
     public Proceso(String nombre) {
         this.nombre = nombre;
         this.actividades = new ListaEnlazadaDoble<>();
@@ -261,6 +260,8 @@ public class Proceso {
         agregarActividadDespuesDeOtra(actividad, ultimaActividadInsertada);
         numeroActividades++;
     }
+
+
 
     /**
      * Elimina una actividad del proceso.

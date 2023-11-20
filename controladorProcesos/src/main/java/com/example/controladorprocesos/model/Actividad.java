@@ -170,9 +170,28 @@ public class Actividad {
      *
      * @param tarea Tarea a agregar.
      */
-    public void agregarTarea(Tarea tarea) {
-        tareas.agregarFinal(tarea);
-        numeroTareas++;
+    public boolean agregarTarea(Tarea tarea) {
+        if(comprobarTareaValida(tareas.getNodoUltimo().getValorNodo(), tarea, null)) {
+            tareas.agregarFinal(tarea);
+            numeroTareas++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean comprobarTareaValida(Tarea tareaAnterior, Tarea nueva, Tarea siguiente){
+        if(siguiente == null){
+            if(tareaAnterior != null){
+                return tareaAnterior.isObligatoria() && nueva.isObligatoria();
+            }
+        }else{
+            if(tareaAnterior != null){
+                return tareaAnterior.isObligatoria() && nueva.isObligatoria() || nueva.isObligatoria() && siguiente.isObligatoria();
+            }else{
+                return nueva.isObligatoria() && siguiente.isObligatoria();
+            }
+        }
+        return false;
     }
 
     /**
@@ -181,9 +200,13 @@ public class Actividad {
      * @param tarea Tarea a agregar.
      * @param i     Posición en la que se agregará la tarea.
      */
-    public void agregarTarea(Tarea tarea, int i) {
-        tareas.agregar(tarea, i);
-        numeroTareas++;
+    public boolean agregarTarea(Tarea tarea, int i) {
+        if (!comprobarTareaValida(tareas.get(i-1),tarea,tareas.get(i))) {
+            tareas.agregar(tarea, i);
+            numeroTareas++;
+            return true;
+        }
+        return false;
     }
 
     /**

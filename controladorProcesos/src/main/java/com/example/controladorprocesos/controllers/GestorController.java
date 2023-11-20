@@ -8,9 +8,6 @@ import javafx.scene.control.*;
 import com.example.controladorprocesos.model.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GestorController {
 
 
@@ -24,6 +21,10 @@ public class GestorController {
     public TextField txtFieldAdminitradorTiempoTarea;
     @FXML
     public TextField txtFieldAdminitradorTareasActividad;
+    @FXML
+    public TableColumn colAdminTareaObligatoria;
+    @FXML
+    public TableColumn colAdminNombreTarea;
     AdministradorController administradorController;
     LoginController loginController;
     ModelFactoryController modelFactoryController;
@@ -124,7 +125,7 @@ public class GestorController {
     @FXML
     public TableColumn<Actividad, String> colAdministradorNombreActividad;
     @FXML
-    public TextField txtFieldAdminitradorNombreActividad;
+    public TextField txtFieldAdministradorNombreActividad;
     @FXML
     public TextArea txtAreaAdminDescripcionActividad;
     @FXML
@@ -165,17 +166,20 @@ public class GestorController {
     public void inicializarUsuario(){
         comboBoxUsuarioObligatorioActividad.setItems(FXCollections.observableArrayList(true, false));
         comboBoxUsuarioObligatorioTarea.setItems(FXCollections.observableArrayList(true, false));
-        inicializarColumnasProcesos();
-        inicializarColumnasActividades();
-        inicializarColumnasTareas();
+        inicializarColumnasProcesosUsuario();
+        inicializarColumnasActividadesUsuario();
+        inicializarColumnasTareasUsuario();
     }
 
     public void inicializarAdministrador(){
         comboBoxAdminObligatorioActividad.setItems(FXCollections.observableArrayList(true, false));
         comboBoxAdminObligatorioTarea.setItems(FXCollections.observableArrayList(true, false));
+        inicializarColumnasProcesosAdministrador();
+        inicializarColumnasActividadesAdministrador();
+        inicializarColumnasTareasAdministrador();
     }
 
-    private void inicializarColumnasActividades() {
+    private void inicializarColumnasActividadesUsuario() {
         colUsuarioObligatorioActividad.setCellValueFactory(new PropertyValueFactory<>("obligatoria"));
         colUsuarioObligatorioActividad.setCellFactory(column -> new TableCell<Actividad, Boolean>() {
             @Override
@@ -195,12 +199,12 @@ public class GestorController {
 
         tableViewUsuarioActividades.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             actividadSeleccionada = newSelection;
-            mostrarInformacionActividad(actividadSeleccionada);
+            mostrarInformacionActividadUsuario(actividadSeleccionada);
         });
     }
 
 
-    private void inicializarColumnasTareas() {
+    private void inicializarColumnasTareasUsuario() {
         colUsuarioNombreTarea.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colUsuarioObligatorioTarea.setCellValueFactory(new PropertyValueFactory<>("obligatoria"));
         colUsuarioObligatorioTarea.setCellFactory(column -> new TableCell<Tarea, Boolean>() {
@@ -221,11 +225,11 @@ public class GestorController {
 
         tableViewUsuarioTareas.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             tareaSeleccionada = newSelection;
-            mostrarInformacionTarea(tareaSeleccionada);
+            mostrarInformacionTareaUsuario(tareaSeleccionada);
         });
     }
 
-    private void inicializarColumnasProcesos() {
+    private void inicializarColumnasProcesosUsuario() {
         colUsuarioIdProceso.setCellValueFactory(new PropertyValueFactory<>("id"));
         colUsuarioNombreProceso.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 
@@ -233,13 +237,15 @@ public class GestorController {
 
         tableViewUsuarioProcesos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             procesoSeleccionado = newSelection;
-            mostrarInformacionProceso(procesoSeleccionado);
+            mostrarInformacionProcesoUsuario(procesoSeleccionado);
         });
     }
 
 
 
-    private void mostrarInformacionProceso(Proceso procesoSeleccionado) {
+
+
+    private void mostrarInformacionProcesoUsuario(Proceso procesoSeleccionado) {
         if (procesoSeleccionado != null) {
             txtFieldUsuarioNombreProceso.setText(procesoSeleccionado.getNombre());
             txtFieldUsuarioIdProceso.setText(String.valueOf(procesoSeleccionado.getId()));
@@ -251,20 +257,115 @@ public class GestorController {
             tableViewUsuarioTareas.setItems(listaBusquedaTareas);
         }
     }
-    private void mostrarInformacionActividad(Actividad actividadSeleccionada) {
+    private void mostrarInformacionActividadUsuario(Actividad actividadSeleccionada) {
         if (actividadSeleccionada != null) {
             txtFieldUsuarioNombreActividad.setText(actividadSeleccionada.getNombre());
             txtAreaUsuarioDescripcionActividad.setText(actividadSeleccionada.getDescripcion());
             txtFieldUsuarioTareasActividad.setText(""+actividadSeleccionada.getTareas().getSize());
+            comboBoxUsuarioObligatorioActividad.setValue(actividadSeleccionada.isObligatoria());
         }
     }
-    private void mostrarInformacionTarea(Tarea tareaSeleccionada) {
+    private void mostrarInformacionTareaUsuario(Tarea tareaSeleccionada) {
         if (tareaSeleccionada != null) {
             txtFieldUsuarioNombreTarea.setText(tareaSeleccionada.getNombre());
             txtAreaUsuarioDescripcionTarea.setText(tareaSeleccionada.getDescripcion());
             txtFieldUsuarioTiempoTarea.setText(""+tareaSeleccionada.getTiempoMinutos());
+            comboBoxUsuarioObligatorioTarea.setValue(tareaSeleccionada.isObligatoria());
         }
     }
+
+
+    private void inicializarColumnasActividadesAdministrador() {
+        colAdministradorObligatorioActividad.setCellValueFactory(new PropertyValueFactory<>("obligatoria"));
+        colAdministradorObligatorioActividad.setCellFactory(column -> new TableCell<Actividad, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText("N/A");  // o cualquier otro valor predeterminado
+                } else {
+                    setText(item ? "Sí" : "No");
+                }
+            }
+        });
+        colAdministradorNombreActividad.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
+        tableViewAdministradorActividades.setItems(listaTotalActividades);
+
+        tableViewAdministradorActividades.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            actividadSeleccionada = newSelection;
+            mostrarInformacionActividadAdmin(actividadSeleccionada);
+        });
+    }
+
+    private void inicializarColumnasTareasAdministrador() {
+        colAdminNombreTarea.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colAdminTareaObligatoria.setCellValueFactory(new PropertyValueFactory<>("obligatoria"));
+        colAdminTareaObligatoria.setCellFactory(column -> new TableCell<Tarea, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText("N/A");  // o cualquier otro valor predeterminado
+                } else {
+                    setText(item ? "Sí" : "No");
+                }
+            }
+        });
+
+        tableViewAdministradorTareas.setItems(listaTotalTareas);
+
+        tableViewAdministradorTareas.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            tareaSeleccionada = newSelection;
+            mostrarInformacionTareaAdmin(tareaSeleccionada);
+        });
+    }
+
+    private void inicializarColumnasProcesosAdministrador() {
+        colAdministradorIdProceso.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colAdministradorNombreProceso.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+
+        tableViewAdministradorProcesos.setItems(listaTotalProcesos);
+
+        tableViewAdministradorProcesos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            procesoSeleccionado = newSelection;
+            mostrarInformacionProcesoAdmin(procesoSeleccionado);
+        });
+    }
+
+    private void mostrarInformacionProcesoAdmin(Proceso procesoSeleccionado) {
+        if (procesoSeleccionado != null) {
+            txtFieldAdminNombreProceso.setText(procesoSeleccionado.getNombre());
+            txtFieldAdminIdProceso.setText(String.valueOf(procesoSeleccionado.getId()));
+            txtFieldAdminDuracionProceso.setText(String.valueOf(procesoSeleccionado.getTiempoMinutos()));
+            txtFieldAdminActividadesProceso.setText("" + procesoSeleccionado.getActividades().size());
+            listaBusquedaActividades.setAll(procesoSeleccionado.obtenerTodasLasActividades());
+            tableViewAdministradorActividades.setItems(listaBusquedaActividades);
+            listaBusquedaTareas.setAll(procesoSeleccionado.obtenerTareasProceso());
+            tableViewAdministradorTareas.setItems(listaBusquedaTareas);
+        }
+    }
+
+    private void mostrarInformacionActividadAdmin(Actividad actividadSeleccionada) {
+        if (actividadSeleccionada != null) {
+            txtFieldAdministradorNombreActividad.setText(actividadSeleccionada.getNombre());
+            txtAreaAdminDescripcionActividad.setText(actividadSeleccionada.getDescripcion());
+            comboBoxAdminObligatorioActividad.setValue(actividadSeleccionada.isObligatoria());
+        }
+    }
+
+    private void mostrarInformacionTareaAdmin(Tarea tareaSeleccionada) {
+        if (tareaSeleccionada != null) {
+            txtFieldAdminitradorNombreTarea.setText(tareaSeleccionada.getNombre());
+            txtAreaAdminDescripcionTarea.setText(tareaSeleccionada.getDescripcion());
+            txtFieldAdminitradorTiempoTarea.setText("" + tareaSeleccionada.getTiempoMinutos());
+            comboBoxAdminObligatorioTarea.setValue(tareaSeleccionada.isObligatoria());
+        }
+    }
+
+
 
     private void actualizarDatosUsuario(){
         listaTotalTareas.clear();
@@ -342,8 +443,13 @@ public class GestorController {
     }
 
     public void usuarioActualizarTablaProcesos(ActionEvent actionEvent) {
+        actualizarTablaProcesosUsuario();
+    }
+
+    public void actualizarTablaProcesosUsuario(){
         actualizarDatosUsuario();
         tableViewUsuarioProcesos.setItems(listaTotalProcesos);
+        tableViewUsuarioProcesos.refresh();
     }
 
     public void usuarioBuscarActividadNombre(ActionEvent actionEvent) {
@@ -365,8 +471,13 @@ public class GestorController {
     }
 
     public void usuarioActualizarTablaActividades(ActionEvent actionEvent) {
+        actualizarTablaActividadesUsuario();
+    }
+
+    public void actualizarTablaActividadesUsuario() {
         actualizarDatosUsuario();
         tableViewUsuarioActividades.setItems(listaTotalActividades);
+        tableViewUsuarioActividades.refresh();
     }
 
     public void usuarioBuscarTareaNombre(ActionEvent actionEvent) {
@@ -386,8 +497,13 @@ public class GestorController {
     }
 
     public void usuarioActualizarTablaTareas(ActionEvent actionEvent) {
+        actualizarTablaTareasUsuarios();
+    }
+
+    public void actualizarTablaTareasUsuarios(){
         actualizarDatosUsuario();
         tableViewUsuarioTareas.setItems(listaTotalTareas);
+        tableViewUsuarioTareas.refresh();
     }
 
     public void usuarioExportarDatosExcel(ActionEvent actionEvent) {
@@ -419,12 +535,16 @@ public class GestorController {
 
 
     public void adminActualizarTablaProcesos(ActionEvent actionEvent) {
+        actualizarTablaProcesosAdmin();
+    }
+    public void actualizarTablaProcesosAdmin(){
         actualizarDatosUsuario();
         tableViewAdministradorProcesos.setItems(listaTotalProcesos);
+        tableViewAdministradorProcesos.refresh();
     }
 
     public void adminBuscarActividadNombre(ActionEvent actionEvent) {
-        String nombreActividad = txtFieldAdminitradorNombreActividad.getText();
+        String nombreActividad = txtFieldAdministradorNombreActividad.getText();
         listaBusquedaActividades.clear();
         if (procesoSeleccionado != null) {
             listaBusquedaActividades.setAll(procesoSeleccionado.buscarActividad(nombreActividad));
@@ -442,8 +562,13 @@ public class GestorController {
     }
 
     public void adminActualizarTablaActividades(ActionEvent actionEvent) {
+        actualizarTablaActividadesAdmin();
+    }
+
+    public void actualizarTablaActividadesAdmin(){
         actualizarDatosUsuario();
         tableViewAdministradorActividades.setItems(listaTotalActividades);
+        tableViewAdministradorActividades.refresh();
     }
 
     public void adminBuscarTareaNombre(ActionEvent actionEvent) {
@@ -463,8 +588,13 @@ public class GestorController {
     }
 
     public void adminActualizarTablaTareas(ActionEvent actionEvent) {
+        actualizarTablaTareasAdmin();
+    }
+
+    public void actualizarTablaTareasAdmin(){
         actualizarDatosAdmin();
         tableViewAdministradorTareas.setItems(listaTotalTareas);
+        tableViewAdministradorTareas.refresh();
     }
 
     public void adminExportarProcesosExcel(ActionEvent actionEvent) {
@@ -473,12 +603,22 @@ public class GestorController {
 
 
     public void adminImportarProcesosCSV(ActionEvent actionEvent) {
+        administradorController.cargarProcesosCSV();
+        actualizarDatosAdmin();
     }
 
     public void adminActualizarProceso(ActionEvent actionEvent) {
+        int id = Integer.parseInt(txtFieldAdminIdProceso.getText());
+        String nombre = txtFieldAdminNombreProceso.getText();
+        if(procesoSeleccionado != null){
+            administradorController.actualizarProceso(procesoSeleccionado, id, nombre);
+        }else{
+            lanzarAlertaError("seleccione un proceso");
+        }
     }
 
     public void adminActualizarActividad(ActionEvent actionEvent) {
+
     }
 
     public void adminActualizarTarea(ActionEvent actionEvent) {
@@ -512,9 +652,12 @@ public class GestorController {
     }
 
     public void adminExportarUsuariosExcel(ActionEvent actionEvent) {
+        administradorController.exportarDatosUsuariosExcel();
     }
 
     public void adminImportarUsuariosCSV(ActionEvent actionEvent) {
+        administradorController.cargarUsuariosCSV();
+        actualizarDatosAdmin();
     }
 
     public void adminEliminarTarea(ActionEvent actionEvent) {
@@ -527,6 +670,7 @@ public class GestorController {
         }else{
             lanzarAlertaError("no existe la tarea");
         }
+        actualizarTablaTareasAdmin();
     }
 
     public void adminEliminarActividad(ActionEvent actionEvent) {
@@ -539,6 +683,7 @@ public class GestorController {
         }else{
             lanzarAlertaError("no existe la actividad");
         }
+        actualizarTablaActividadesAdmin();
     }
 
     public void adminEliminarProceso(ActionEvent actionEvent) {
@@ -547,6 +692,7 @@ public class GestorController {
         }else{
             lanzarAlertaError("no se encontro el proceso");
         }
+        actualizarTablaProcesosAdmin();
     }
 
     public void adminAgregarProceso(ActionEvent actionEvent) {
@@ -557,13 +703,20 @@ public class GestorController {
         }else{
             lanzarAlertaError("el proceso ya existe");
         }
-
+        actualizarTablaProcesosAdmin();
     }
 
     public void adminAgregarActividad(ActionEvent actionEvent) {
-        String nombre = txtFieldAdminitradorNombreActividad.getText();
+        String nombre = txtFieldAdministradorNombreActividad.getText();
         String descripcion = txtAreaAdminDescripcionActividad.getText();
-        administradorController.agregarActividad(procesoSeleccionado, new Actividad(nombre,descripcion));
+        if (actividadSeleccionada != null && procesoSeleccionado != null) {
+            administradorController.agregarActividadDespuesDeOtra(procesoSeleccionado, actividadSeleccionada, new Actividad(nombre, descripcion));
+        } else if(procesoSeleccionado != null){
+            administradorController.agregarActividad(procesoSeleccionado, new Actividad(nombre, descripcion));
+        }else{
+            lanzarAlertaError("debe seleccionar un proceso");
+        }
+        actualizarTablaActividadesAdmin();
     }
 
     public void adminAgregarTarea(ActionEvent actionEvent) {
@@ -571,6 +724,9 @@ public class GestorController {
         String descripcion = txtAreaAdminDescripcionTarea.getText();
         String tiempo = txtFieldAdminitradorTiempoTarea.getText();
 
-        administradorController.agregarTarea(actividadSeleccionada, new Tarea(nombre,descripcion, Double.parseDouble(tiempo)));
+        if(!administradorController.agregarTarea(actividadSeleccionada, new Tarea(nombre,descripcion, Double.parseDouble(tiempo)))){
+            lanzarAlertaError("no se pueden agregar 2 tareas opcionales seguidas");
+        }
+        actualizarTablaTareasAdmin();
     }
 }

@@ -5,7 +5,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -346,6 +348,40 @@ public class Gestor implements Runnable{
                 workbook.write(fileOut);
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarUsuariosDesdeCSV(String archivoUsuarios) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivoUsuarios))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] partes = linea.split(",");
+                if (partes.length == 2) {
+                    String usuario = partes[0].trim();
+                    String contraseña = partes[1].trim();
+                    agregarUsuario(new Usuario(usuario, contraseña));
+                }
+            }
+            System.out.println("Usuarios cargados desde CSV con éxito.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarProcesosDesdeCSV(String archivoProcesos) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivoProcesos))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] partes = linea.split(",");
+                if (partes.length == 2) {
+                    int id = Integer.parseInt(partes[0].trim());
+                    String nombre = partes[1].trim();
+                    agregarProceso(new Proceso(id, nombre));
+                }
+            }
+            System.out.println("Procesos cargados desde CSV con éxito.");
+        } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
         }
     }

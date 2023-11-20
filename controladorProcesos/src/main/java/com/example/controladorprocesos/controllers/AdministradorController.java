@@ -60,10 +60,30 @@ public class AdministradorController {
     }
 
     public void agregarActividad(Proceso procesoSeleccionado, Actividad actividad) {
-        modelFactoryController.agregarActividad(procesoSeleccionado,actividad);
+        modelFactoryController.agregarActividadDespuesDeUltima(procesoSeleccionado,actividad);
     }
 
-    public void agregarTarea(Actividad actividad, Tarea tarea) {
-        modelFactoryController.agregarTarea(actividad, tarea);
+    public boolean agregarTarea(Actividad actividad, Tarea tarea) {
+        return modelFactoryController.agregarTarea(actividad, tarea);
+    }
+
+    public void agregarActividadDespuesDeOtra(Proceso proceso, Actividad actividadSeleccionada, Actividad actividad) {
+        modelFactoryController.agregarActividadDespuesDeOtra(proceso, actividadSeleccionada, actividad);
+    }
+
+    public void exportarDatosUsuariosExcel() {
+        modelFactoryController.exportarDatosUsuariosExcel();
+    }
+
+    public void actualizarProceso(Proceso procesoSeleccionado, int id, String nombre) {
+        modelFactoryController.actualizarProceso(procesoSeleccionado, id , nombre);
+    }
+
+    public void cargarProcesosCSV() {
+        modelFactoryController.importarProcesosCSV();
+    }
+
+    public void cargarUsuariosCSV() {
+        modelFactoryController.importarUsuariosCSV();
     }
 }
