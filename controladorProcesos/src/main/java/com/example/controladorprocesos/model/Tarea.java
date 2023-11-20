@@ -6,8 +6,9 @@ package com.example.controladorprocesos.model;
 public class Tarea {
     private String nombre;
     private String descripcion;
-    private boolean obligatoria;
+    private boolean obligatoria = false;
     private double tiempoMinutos;
+    private long tiempoRestante;
     private String usuario;
 
     public void setUsuario(String usuario) {
@@ -27,6 +28,10 @@ public class Tarea {
         this.descripcion = descripcion;
         this.obligatoria = obligatoria;
         this.tiempoMinutos = tiempoMinutos;
+    }
+
+    public void actualizarTiempoMinutos() {
+        this.tiempoMinutos = tiempoRestante / 60.0; // Convertir segundos a minutos
     }
 
     /**
@@ -128,16 +133,24 @@ public class Tarea {
      */
     public void realizarTarea(String usuario) {
         this.usuario = usuario;
-        try {
-            Thread.sleep((long) (tiempoMinutos * 60000L));
-            enviarNotificacionTareaTerminada("la tarea" + nombre + " ha sizo realizada de forma exitosa");
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        tiempoRestante = (long) (tiempoMinutos * 60L); // Convertir minutos a segundos
+
+        while (tiempoRestante > 0 && !Thread.interrupted()) {
+            try {
+                Thread.sleep(1000); // Esperar un segundo
+                tiempoRestante--;
+                actualizarTiempoMinutos();
+
+                // Puedes imprimir el tiempo restante si lo deseas
+                System.out.println("Tiempo restante para la tarea '" + nombre + "': " + tiempoRestante + " segundos");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void enviarNotificacionTareaTerminada(String mensaje){
-        Notificacion n = new Notificacion(1,mensaje);
-        n.enviarCorreoElectronico(usuario,nombre,mensaje);
-    }
+        public void enviarNotificacionTareaTerminada(String mensaje){
+            Notificacion n = new Notificacion(1, mensaje);
+            n.enviarCorreoElectronico(usuario, nombre, mensaje);
+        }
 }

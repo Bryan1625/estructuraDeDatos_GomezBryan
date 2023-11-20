@@ -64,6 +64,9 @@ public class Actividad {
     public void actualizarTiempo(){
         this.tiempo = calcularDuracionEstimada();
     }
+    public void actualizarNumeroTareas(){
+        numeroTareas = tareas.getSize();
+    }
     public double getTiempo() {
         actualizarTiempo();
         return tiempo;
@@ -84,7 +87,7 @@ public class Actividad {
 
     public List<Tarea> obtenerTareasList(){
         List<Tarea> tareas = new ArrayList<>();
-        for (Tarea tarea: tareas) {
+        for (Tarea tarea: this.tareas) {
             tareas.add(tarea);
         }
         return tareas;

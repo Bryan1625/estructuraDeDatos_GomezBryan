@@ -16,4 +16,16 @@ public class UsuarioController {
     public Proceso buscarProcesoId(int idProceso) {
         return modelFactoryController.buscarProcesoId(idProceso);
     }
+
+    public List<Actividad> buscarActividadesNombre(String nombre) {
+        return modelFactoryController.gestor.buscarActividadesPorNombre(nombre);
+    }
+
+    public List<Tarea> buscarTareasNombre(String nombre) {
+        return modelFactoryController.gestor.buscarTareasPorNombre(nombre);
+    }
+
+    public void exportarDatosExcel() {
+        modelFactoryController.exportarDatosExcel();
+    }
 }

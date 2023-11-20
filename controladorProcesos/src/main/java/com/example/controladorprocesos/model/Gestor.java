@@ -34,6 +34,13 @@ public class Gestor implements Runnable{
     public ListaEnlazadaDoble<Proceso> getProcesos() {
         return procesos;
     }
+    public List<Proceso> obtenerListaProcesos(){
+        List<Proceso> procesosl = new ArrayList<>();
+        for (Proceso proceso: procesos) {
+            procesosl.add(proceso);
+        }
+        return procesosl;
+    }
 
     public void setProcesos(ListaEnlazadaDoble<Proceso> procesos) {
         this.procesos = procesos;
@@ -53,6 +60,25 @@ public class Gestor implements Runnable{
 
     public void setNotificaciones(ListaEnlazadaDoble<Notificacion> notificaciones) {
         this.notificaciones = notificaciones;
+    }
+
+
+    public List<Actividad> obtenerTodasLasActividades() {
+        List<Actividad> actividades = new ArrayList<>();
+        for (Proceso proceso : procesos) {
+            actividades.addAll(proceso.obtenerTodasLasActividades());
+        }
+        return actividades;
+    }
+
+    public List<Tarea> obtenerTodasLasTareas() {
+        List<Tarea> tareas = new ArrayList<>();
+        for (Proceso proceso : procesos) {
+            for (Actividad actividad: proceso.getActividades()) {
+                tareas.addAll(actividad.obtenerTareasList());
+            }
+        }
+        return tareas;
     }
 
     // Métodos para gestionar procesos

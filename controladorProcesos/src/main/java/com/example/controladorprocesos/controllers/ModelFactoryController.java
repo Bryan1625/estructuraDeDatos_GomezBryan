@@ -27,7 +27,7 @@ public class ModelFactoryController {
         return SingletonHolder.eINSTANCE;
     }
 
-    public void iniciarlizarDatos(){
+    public void inicializarDatos(){
         Proceso proceso1 = new Proceso(1, "Proceso 1");
         Proceso proceso2 = new Proceso(2, "Proceso 2");
         Proceso proceso3 = new Proceso(3, "Proceso 3");
@@ -124,6 +124,7 @@ public class ModelFactoryController {
         gestor.setProcesos(procesos);
 
         gestor.agregarUsuario(new Usuario("Bryan", "1"));
+        gestor.agregarUsuario(new Usuario("bryangomez1625@gmail.com", "1"));
 
 
         this.gestor = gestor;
@@ -173,12 +174,12 @@ public class ModelFactoryController {
         gestor.exportarExcelListaUsuarios(rutaExcelUsuarios);
     }
 
-
     public void exportarDatosExcel() {
         gestor.exportarExcelListaProcesos(rutaExcelProcesos);
     }
 
-    public void importarProcesosCSV() {
+    public List<Proceso> importarProcesosCSV() {
+        return null;
     }
 
     public void actualizarProceso(Proceso proceso, int id, String nombre) {
@@ -216,10 +217,8 @@ public class ModelFactoryController {
         return gestor.agregarUsuario(usuario);
     }
 
-    public void exportarUsuariosExcel() {
-    }
-
-    public void importarUsuariosCSV() {
+    public List<Usuario> importarUsuariosCSV() {
+        return null;
     }
 
     public void eliminarTarea(Actividad actividad, Tarea tarea) {

@@ -15,72 +15,23 @@ public class AdministradorController {
         return modelFactoryController.buscarProcesosNombre(nombreProceso);
     }
 
-    public void buscarProcesoId() {
+    public Proceso buscarProcesoId(int idProceso) {
+        return modelFactoryController.buscarProcesoId(idProceso);
     }
 
-    public void actualizarTablaProcesos() {
+    public List<Actividad> buscarActividadesNombre(String nombre) {
+        return modelFactoryController.gestor.buscarActividadesPorNombre(nombre);
     }
 
-    public void buscarActividadNombre() {
+    public List<Tarea> buscarTareasNombre(String nombre) {
+        return modelFactoryController.gestor.buscarTareasPorNombre(nombre);
     }
 
-    public void actualizarTablaActividades() {
+    public void exportarDatosExcel() {
+        modelFactoryController.exportarDatosExcel();
     }
 
-    public void buscarTareaNombre() {
-    }
-
-    public void actualizarTablaTareas() {
-    }
-
-    public void exportarProcesosExcel() {
-    }
-
-    public void adminImportarProcesosCSV() {
-    }
-
-    public void actualizarProceso() {
-    }
-
-    public void actualizarActividad() {
-    }
-
-    public void actualizarTarea() {
-    }
-
-    public void adminBuscarUsuario() {
-    }
-
-    public void actualizarUsuario() {
-    }
-
-    public void eliminarUsuario() {
-    }
-
-    public void agregarUsuario() {
-    }
-
-    public void exportarUsuariosExcel() {
-    }
-
-    public void adminImportarUsuariosCSV() {
-    }
-
-    public void eliminarTarea() {
-    }
-
-    public void eliminarActividad() {
-    }
-
-    public void eliminarProceso() {
-    }
-
-    public void agregarProceso() {
-    }
-
-    public void agregarActividad() {
-    }
-
-    public void agregarTarea() {
+    public Usuario buscarUsuario(String nombre) {
+        return modelFactoryController.buscarUsuario(nombre);
     }
 }

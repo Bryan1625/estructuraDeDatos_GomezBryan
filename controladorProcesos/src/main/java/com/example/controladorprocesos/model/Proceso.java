@@ -77,6 +77,9 @@ public class Proceso {
     public void actualizarTiempo(){
         this.tiempoMinutos = obtenerDuracionTotal();
     }
+    public void actualizarCantidadActividades(){
+        numeroActividades = actividades.getSize();
+    }
 
     /**
      * Establece el identificador del proceso.
@@ -193,6 +196,14 @@ public class Proceso {
             }
         }
         return null;
+    }
+
+    public List<Actividad> obtenerTodasLasActividades() {
+        List<Actividad> actividades = new ArrayList<>();
+        for (Actividad actividad : this.actividades) {
+            actividades.add(actividad);
+        }
+        return actividades;
     }
 
     /**
