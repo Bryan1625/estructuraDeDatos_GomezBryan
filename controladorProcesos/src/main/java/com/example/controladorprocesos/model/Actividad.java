@@ -171,12 +171,9 @@ public class Actividad {
      * @param tarea Tarea a agregar.
      */
     public boolean agregarTarea(Tarea tarea) {
-        if(comprobarTareaValida(tareas.getNodoUltimo().getValorNodo(), tarea, null)) {
-            tareas.agregarFinal(tarea);
-            numeroTareas++;
-            return true;
-        }
-        return false;
+        tareas.agregarFinal(tarea);
+        numeroTareas++;
+        return true;
     }
 
     public boolean comprobarTareaValida(Tarea tareaAnterior, Tarea nueva, Tarea siguiente){

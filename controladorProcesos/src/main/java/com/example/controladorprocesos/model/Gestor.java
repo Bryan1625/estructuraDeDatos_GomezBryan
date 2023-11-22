@@ -5,12 +5,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.poi.sl.usermodel.PresetColor.Desktop;
 
 /**
  * Clase que gestiona procesos, usuarios y notificaciones en la aplicación.
@@ -49,6 +48,14 @@ public class Gestor implements Runnable{
     }
 
     public ListaEnlazadaDoble<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public List<Usuario> obtenerUsuarios(){
+        List<Usuario> usuarios = new ArrayList<>();
+        for (Usuario usuario: this.usuarios) {
+            usuarios.add(usuario);
+        }
         return usuarios;
     }
 
@@ -316,6 +323,15 @@ public class Gestor implements Runnable{
             // Escribir el archivo Excel
             try (FileOutputStream fileOut = new FileOutputStream(nombreArchivo)) {
                 workbook.write(fileOut);
+                String archivoExcelPath = "ruta/al/archivo.xlsx"; // Reemplaza con la ruta de tu archivo
+
+                // Verifica si el sistema operativo es Windows
+                if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                    ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", archivoExcelPath);
+                    builder.start();
+                } else {
+                    System.out.println("Este código funciona solo en sistemas Windows.");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

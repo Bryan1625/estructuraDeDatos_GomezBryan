@@ -251,14 +251,24 @@ public class Proceso {
         numeroActividades++;
     }
 
-    public void agregarActividadDespuesDeOtra(Actividad nueva, Actividad anterior){
-        actividades.agregar(nueva,actividades.obtenerPosicionNodo(anterior));
-        numeroActividades++;
+    public void agregarActividadDespuesDeOtra(Actividad nueva, Actividad anterior) {
+        if (actividades.obtenerPosicionNodo(anterior) >= 0 && actividades.obtenerPosicionNodo(anterior) < actividades.size()) {
+            actividades.agregar(nueva, actividades.obtenerPosicionNodo(anterior));
+            numeroActividades++;
+        }else{
+            agregarActividad(nueva);
+            numeroActividades++;
+        }
     }
 
     public void agregarDespuesUltimaActividad(Actividad actividad){
-        agregarActividadDespuesDeOtra(actividad, ultimaActividadInsertada);
-        numeroActividades++;
+        if(ultimaActividadInsertada != null) {
+            agregarActividadDespuesDeOtra(actividad, ultimaActividadInsertada);
+            numeroActividades++;
+        }else{
+            agregarActividad(actividad);
+            numeroActividades++;
+        }
     }
 
 

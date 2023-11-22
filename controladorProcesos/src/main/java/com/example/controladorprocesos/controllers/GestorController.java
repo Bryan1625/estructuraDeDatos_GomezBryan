@@ -161,6 +161,7 @@ public class GestorController {
         modelFactoryController = ModelFactoryController.getInstance();
         modelFactoryController.inicializarDatos();
         actualizarDatosUsuario();
+        actualizarDatosAdmin();
     }
 
     public void inicializarUsuario(){
@@ -177,6 +178,7 @@ public class GestorController {
         inicializarColumnasProcesosAdministrador();
         inicializarColumnasActividadesAdministrador();
         inicializarColumnasTareasAdministrador();
+        inicializarColumnasUsuariosAdministrador();
     }
 
     private void inicializarColumnasActividadesUsuario() {
@@ -245,6 +247,8 @@ public class GestorController {
 
 
 
+
+
     private void mostrarInformacionProcesoUsuario(Proceso procesoSeleccionado) {
         if (procesoSeleccionado != null) {
             txtFieldUsuarioNombreProceso.setText(procesoSeleccionado.getNombre());
@@ -263,6 +267,8 @@ public class GestorController {
             txtAreaUsuarioDescripcionActividad.setText(actividadSeleccionada.getDescripcion());
             txtFieldUsuarioTareasActividad.setText(""+actividadSeleccionada.getTareas().getSize());
             comboBoxUsuarioObligatorioActividad.setValue(actividadSeleccionada.isObligatoria());
+            listaBusquedaTareas.setAll(actividadSeleccionada.obtenerTareasList());
+            tableViewUsuarioTareas.setItems(listaBusquedaTareas);
         }
     }
     private void mostrarInformacionTareaUsuario(Tarea tareaSeleccionada) {
@@ -335,6 +341,23 @@ public class GestorController {
         });
     }
 
+    private void inicializarColumnasUsuariosAdministrador() {
+        colAdminUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
+        colAdminContrasenia.setCellValueFactory(new PropertyValueFactory<>("contrasenia"));
+
+        tableViewAdministradorUsuarios.setItems(listaTotalUsuarios);
+
+        tableViewAdministradorUsuarios.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            usuarioSeleccionado = newSelection;
+            mostrarInformacionUsuarioAdmin(usuarioSeleccionado);
+        });
+    }
+
+    private void mostrarInformacionUsuarioAdmin(Usuario usuarioSeleccionado) {
+        txtFieldAdminitradorNombreUsuario.setText(usuarioSeleccionado.getNombreUsuario());
+        txtFieldAdminitradorContrasenia.setText(usuarioSeleccionado.getContrasenia());
+    }
+
     private void mostrarInformacionProcesoAdmin(Proceso procesoSeleccionado) {
         if (procesoSeleccionado != null) {
             txtFieldAdminNombreProceso.setText(procesoSeleccionado.getNombre());
@@ -386,11 +409,12 @@ public class GestorController {
         listaTotalActividades.setAll(modelFactoryController.gestor.obtenerTodasLasActividades());
         listaTotalProcesos.setAll(modelFactoryController.gestor.obtenerListaProcesos());
         listaTotalTareas.setAll(modelFactoryController.gestor.obtenerTodasLasTareas());
+        listaTotalUsuarios.setAll(modelFactoryController.gestor.obtenerUsuarios());
         tableViewAdministradorProcesos.refresh();
         tableViewAdministradorActividades.refresh();
         tableViewAdministradorTareas.refresh();
+        tableViewAdministradorUsuarios.refresh();
     }
-
 
 
     //////////////////////////////////login///////////////////////////////
@@ -597,6 +621,12 @@ public class GestorController {
         tableViewAdministradorTareas.refresh();
     }
 
+    public void actualizarTablaUsuarios(){
+        actualizarDatosAdmin();
+        tableViewAdministradorUsuarios.setItems(listaTotalUsuarios);
+        tableViewAdministradorUsuarios.refresh();
+    }
+
     public void adminExportarProcesosExcel(ActionEvent actionEvent) {
         administradorController.exportarDatosExcel();
     }
@@ -622,6 +652,13 @@ public class GestorController {
     }
 
     public void adminActualizarTarea(ActionEvent actionEvent) {
+        String nombre = txtFieldAdminitradorNombreTarea.getText();
+        String descripcion = txtAreaAdminDescripcionTarea.getText();
+        boolean obligatoria = comboBoxAdminObligatorioTarea.getValue();
+        double duracion = Integer.parseInt(txtFieldAdminitradorTiempoTarea.getText());
+        if(tareaSeleccionada != null){
+            modelFactoryController.actualizarTarea(tareaSeleccionada, nombre, descripcion,obligatoria,duracion);
+        }
     }
 
     public void adminBuscarUsuario(ActionEvent actionEvent) {
@@ -631,11 +668,20 @@ public class GestorController {
     }
 
     public void adminActualizarUsuario(ActionEvent actionEvent) {
+        String nombre = txtFieldAdminitradorNombreUsuario.getText();
+        String contrasenia = txtFieldAdminitradorContrasenia.getText();
+        if(usuarioSeleccionado != null){
+            modelFactoryController.actualizarUsuario(usuarioSeleccionado,nombre,contrasenia);
+            actualizarTablaUsuarios();
+        }else{
+            lanzarAlertaError("no ha seleccionado un usuario para seleccionar");
+        }
     }
 
     public void adminEliminarUsuario(ActionEvent actionEvent) {
         if(listaTotalUsuarios.contains(usuarioSeleccionado)){
             administradorController.eliminarUsuario(usuarioSeleccionado);
+            actualizarTablaUsuarios();
         }else{
             lanzarAlertaError("el usuario no existe");
         }
@@ -646,6 +692,7 @@ public class GestorController {
         String contrasenia = txtFieldAdminitradorContrasenia.getText();
         if (administradorController.buscarUsuario(nombreUsuario) == null) {
             administradorController.agregarUsuario(new Usuario(nombreUsuario, contrasenia));
+            actualizarTablaUsuarios();
         } else {
             lanzarAlertaError("el usuario ya existe");
         }
@@ -709,10 +756,11 @@ public class GestorController {
     public void adminAgregarActividad(ActionEvent actionEvent) {
         String nombre = txtFieldAdministradorNombreActividad.getText();
         String descripcion = txtAreaAdminDescripcionActividad.getText();
+        boolean obligatoria = comboBoxAdminObligatorioActividad.getValue();
         if (actividadSeleccionada != null && procesoSeleccionado != null) {
-            administradorController.agregarActividadDespuesDeOtra(procesoSeleccionado, actividadSeleccionada, new Actividad(nombre, descripcion));
+            administradorController.agregarActividadDespuesDeOtra(procesoSeleccionado, actividadSeleccionada, new Actividad(nombre, descripcion,obligatoria));
         } else if(procesoSeleccionado != null){
-            administradorController.agregarActividad(procesoSeleccionado, new Actividad(nombre, descripcion));
+            administradorController.agregarActividad(procesoSeleccionado, new Actividad(nombre, descripcion,obligatoria));
         }else{
             lanzarAlertaError("debe seleccionar un proceso");
         }
@@ -724,9 +772,11 @@ public class GestorController {
         String descripcion = txtAreaAdminDescripcionTarea.getText();
         String tiempo = txtFieldAdminitradorTiempoTarea.getText();
 
-        if(!administradorController.agregarTarea(actividadSeleccionada, new Tarea(nombre,descripcion, Double.parseDouble(tiempo)))){
-            lanzarAlertaError("no se pueden agregar 2 tareas opcionales seguidas");
+        if (actividadSeleccionada != null) {
+            if (!administradorController.agregarTarea(actividadSeleccionada, new Tarea(nombre, descripcion, Double.parseDouble(tiempo)))) {
+                lanzarAlertaError("no se pueden agregar 2 tareas opcionales seguidas");
+            }
+            actualizarTablaTareasAdmin();
         }
-        actualizarTablaTareasAdmin();
     }
 }
